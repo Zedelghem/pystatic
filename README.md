@@ -5,7 +5,9 @@ Dead simple static site generator. To build a website you need only one line of 
 There are multiple Python-based static site generators but I wanted something extremely simple, even primitive; something you could use knowing zero Python and perhaps never even having to tweak options. A tool for everyone not willing to struggle with servers or learn a CMS just to write stuff. Lo and behold, here comes pystatic.
 
 The pipeline is incredibly straightforward. You call the
-> build_website("posts")
+```
+build_website("posts")
+```
 
 function (in the build.py file) with only one variable, path of the folder where you keep your posts, and the script builds your website with two templates, one for the main page and one for the post page. Posts should be written in markdown. You style templates in a .css file. The complete website is saved in the site folder. That's it. Folder structure is as follows.
 ```
@@ -114,7 +116,7 @@ The two features below were introduced with ease of possible further development
 **optional_header** provides a list of optional header options. Expanding it will not change anything at this moment. However, deleting one of the options will make it unusable. I would not change anything here for now.
 
 ## Roadmap?
-There are, of course, tons of options that might be added like import or export to particular CMS, support for manipulation and creation of templates from the script, reading other than Markdown text-to-HTML interpreters, etc. However, I am rather happy with this version and for now I do not see any need to expand it for my purposes. I will think about extension if I come across a problem that bthers me or if anyone else ever uses pystatic. ;)
+There are, of course, tons of options that might be added like import or export to particular CMS, support for manipulation and creation of templates from the script, reading other than Markdown text-to-HTML interpreters, etc. However, I am rather happy with this version and for now I do not see any need to expand it for my purposes. I will think about extension if I come across a problem that bothers me or if anyone else ever uses pystatic. ;)
 
 If you are looking for a similar ready to go tool, full of options, just browse https://www.staticgen.com.
 
