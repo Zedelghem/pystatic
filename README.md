@@ -5,7 +5,7 @@ Dead simple static site generator. To build a website you need only one line of 
 There are multiple Python-based static site generators but I wanted something extremely simple, even primitive; something you could use knowing zero Python and perhaps never even having to tweak options. A tool for everyone not willing to struggle with servers or learn a CMS just to write stuff. Lo and behold, here comes pystatic.
 
 The pipeline is incredibly straightforward. You call the
-```
+```python
 build_website("posts")
 ```
 
