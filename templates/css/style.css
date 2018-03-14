@@ -1,0 +1,184 @@
+
+@font-face {
+  font-family: 'CoolMonospace';
+  src: url('http://colonial.one/assets/79e13e-Regular-R141126-webb5b9.eot') format('eot'), /* IE9 Compat Modes */
+       url('http://colonial.one/assets/79e13e-Regular-R141126-webb5b9.woff') format('woff'), /* Pretty Modern Browsers */
+       url('http://colonial.one/assets/79e13e-Regular-R141126-webb5b9.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+
+body {
+  font-family: 'CoolMonospace', monospace;
+  color: black;
+  background-color: lightcyan;
+  font-size: 1.1em;
+  
+  /*Fuzzy dots in the background*/
+  background-image: radial-gradient(white 10%, transparent 76%),
+  radial-gradient(white 10%, transparent 66%);
+  background-size: 50px 60px;
+  background-position: 0 0, 30px 30px;
+  
+}
+
+a {
+  transition: 0.5s ease-in-out;
+  color: blue;
+}
+
+a:hover {
+  color: orchid;
+}
+
+#wrapper {
+    margin: auto;
+    width: 50%;
+    padding: 5%;
+}
+
+#wrapper.index, #wrapper.post {
+    max-width: 600px;
+}
+
+#titlebar {
+  margin-bottom: 5%;
+}
+
+#titlebar span {
+  color: lightcyan;
+  font-weight: bold;
+  font-size: 2em;
+  background-color: orchid;
+  border-bottom: 5px orchid solid;
+  border-top: 5px orchid solid;
+  border-left: 15px orchid solid;
+  border-right: 15px orchid solid;
+  transition: 0.5s ease-in-out;
+}
+
+#titlebar span:hover {
+  background-color: royalblue;
+  border-color: royalblue;
+}
+
+#titlebar a {
+    text-decoration: none;
+    color: lightcyan;
+}
+
+#titlebar:after {
+  content: "nostalgiczny blog o sprawach nieatrakcyjnych \A z odrobiną kodu, historii i pesymizmu";
+  font-style: italic;
+  white-space: pre;
+  position: absolute;
+  vertical-align: super;
+  font-size: 0.7em;
+  padding-left: 1em;
+  margin-top: -5px;
+}
+
+.postcontent {
+  line-height: 1.5em;
+  margin-top: 30px;
+}
+
+.post .postcontent:after {
+  content: "KONIEC";
+  color: lightcyan;
+  font-weight: bold;
+  background-color: royalblue;
+  border-left: 5px royalblue solid;
+  border-right: 5px royalblue solid;
+}
+
+.post .name, .post .date {
+  color: blue;
+  font-weight: bold;
+}
+
+.post .name:after, .post .date:after {
+  font-weight: bold;
+  color: red;
+}
+
+.post .name:after {
+  content: "@";
+}
+
+.post .date:after {
+  content: " $"
+}
+
+.post .title {
+  font-weight: bold;
+  color: orchid;
+}
+
+.post .title:after {
+  content: " >>";
+  color: red;
+}
+
+.footer_back {
+  margin: 5%;
+  color: black;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+ul.postlist {
+  padding-left: 0px;
+}
+
+ul.postlist li {
+  list-style-type: none;
+  color: black;
+}
+
+ul.postlist li span.date {
+  margin-top: 5px;
+  padding-left: 5%;
+  font-size: 0.7em;
+  float: right;
+  color: royalblue;
+  font-weight: bold;
+}
+
+ul.postlist li a.title {
+  color: black;
+  transition: 0.5s ease-in-out;
+  text-decoration: none;
+}
+
+ul.postlist li a.title:hover {
+  color: orchid;
+}
+
+.footer_proper {
+  font-style: italic;
+  float: right;
+  font-size: 0.7em;
+}
+
+@media only screen and (max-width: 650px) {
+    /* For mobile phones: */
+  #wrapper {
+        width: 85%;
+    }
+  
+  #titlebar:after {
+    position: absolute;
+    float: left;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    display: block;
+    margin-top: 15px;
+    border-left: 5px solid orchid;
+    border-bottom: 3px dashed orchid;
+  }
+  
+  .postcontent, .postlist {
+    margin-top: 70px;
+  }
+  
+}
