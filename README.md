@@ -68,7 +68,7 @@ function (in the build.py file) with only one variable, path of the folder where
 
 3. The script does two main things. First, it generates an unordered list (\<ul>) of all posts and injects it to the template file for index.html. It does so by replacing a placeholder, by default it's '<!--###POSTS_LIST###-->'. Second, for every post it converts its content from Markdown to HTML (using Python markdown library) and creates a file for it using a template file for post. It also does so by replacing a placeholder, '<!--###POST_CONTENT###-->' by default.
 
-4. Remember how the file tree is built – posts are in a folder at the same level as the CSS and assets folder. In the template you need to account for the need to get one level up to get to the .css file. For example, to refer to a style.css you need to use the following path.
+4. Remember how the file tree is built – posts are in a folder at the same level as the CSS and assets folder. In the template you need to account for the need to get one level up to get to the .css file. For example, to refer to a style.css within your template file or a post file you need to use the following path.
     ```
     ../css/style.css
     ```
@@ -96,6 +96,8 @@ Most of them are self explanatory. However, I explain all of them below for clar
 **index_template** gives the path to the template file for the index page (with posts list).
 
 **post_template** gives the path to the template file for the individual post page.
+
+**css_and_assets_path** sets the path for the folder holding css/, assets/ and lib/ folder. Note that changing this does not change the path for template files. You need to set them separately.
 
 **extension** sets file extension for your posts files. At the moment it does no really make sanse to change it. For now all posts are by default parsed through markdown library and thus they should be written using markdown. However, the parser does not care about file extension. Therefore if you really want (or for some strange reasons need) to store your files in .txt or any other format, you may do so.
 

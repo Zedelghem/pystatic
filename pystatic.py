@@ -32,7 +32,7 @@ class Post (object):
         
     def build_pretty_date(self, titleseparator="_", numberseparator="-", date_format="%b %d"):
         if hasattr(self, 'timestamp'):
-            self.date = parse.parse(self.timestamp.split(" ")[0].split(titleseparator)[0]).strftime(date_format).capitalize()
+            self.date = parser.parse(self.timestamp.split(" ")[0].split(titleseparator)[0]).strftime(date_format).capitalize()
             self.time = self.timestamp.split(" ")[1]
         else:
             self.date = parser.parse(self.filename.split(titleseparator)[0]).strftime(date_format).capitalize()
@@ -107,7 +107,7 @@ def filter_bad_dates(posts_list, titleseparator="_", numberseparator="-"):
                 int(num)
         except:
             to_ignore.append(index)
-            continue;
+            continue
         
         # Check if YYYY has 4 nums, MM 2 and DD 2
         if len(datecheck[0]) != 4 or len(datecheck[1]) != 2 or len(datecheck[2]) != 2:
@@ -194,7 +194,7 @@ def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST##
     output_file.close()
 
     
-def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp']):
+def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp']):
     # Call everything
     try:
         fresh_posts = generate_posts(in_path, extension)
@@ -239,13 +239,18 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
     except:
         print("Could not build post pages. Did you provide a template?")
     
-    # Copy all css and assets
+    # Copy all css, assets and lib
     try:
-        copytree("templates/css", "site/css")
+        copytree(css_and_assets_path + "/css", "site/css")
     except:
-        print("Tried to copy contents of templates/css folder but the folder does not exist! Make one, even empty!")
+        print("Tried to copy contents of", css_and_assets_path, "/css folder but the folder does not exist! Make one, even empty!")
     
     try:
-        copytree("templates/assets", "site/assets")
+        copytree(css_and_assets_path + "assets", "site/assets")
     except:
-        print("Tried to copy contents of templates/assets folder but the folder does not exist! Make one, even empty!")
+        print("Tried to copy contents of", css_and_assets_path, "/assets folder but the folder does not exist! Make one, even empty!")
+    
+    try:
+        copytree(css_and_assets_path + "/lib", "site/lib")
+    except:
+        print("Tried to copy contents of", css_and_assets_path, "/lib folder but the folder does not exist! Make one, even empty!")
