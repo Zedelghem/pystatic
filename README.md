@@ -1,6 +1,13 @@
 # pystatic
 Dead simple static site generator. To build a website you need only one line of Python, the rest is Markdown, HTML, and CSS.
 
+## Installation note
+You might miss dateutil or markdown in your Python configuration. They are both available through pip.
+```python
+pip install python-dateutil
+pip install markdown
+```
+
 ## Description
 There are multiple Python-based static site generators but I wanted something extremely simple, even primitive; something you could use knowing zero Python and perhaps never even having to tweak options. A tool for everyone not willing to struggle with servers or learn a CMS just to write stuff. Lo and behold, here comes pystatic.
 

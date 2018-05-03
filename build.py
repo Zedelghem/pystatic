@@ -1,3 +1,3 @@
 import pystatic
 
-build_website("posts")
+pystatic.build_website("posts")
