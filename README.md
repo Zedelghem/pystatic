@@ -1,6 +1,8 @@
 # pystatic
 Dead simple static site generator. To build a website you need only one line of Python, the rest is Markdown, HTML, and CSS.
 
+![Default template thumbnail](https://raw.githubusercontent.com/Zedelghem/pystatic/master/templates/assets/template_thumb.png)
+
 ## Installation note
 You might miss dateutil or markdown in your Python configuration. They are both available through pip.
 ```python

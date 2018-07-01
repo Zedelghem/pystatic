@@ -1,25 +1,14 @@
-@font-face {
-    font-family: 'CoolMonospace';
-    src: url('http://colonial.one/assets/79e13e-Regular-R141126-webb5b9.eot') format('eot'), /* IE9 Compat Modes */
-    url('http://colonial.one/assets/79e13e-Regular-R141126-webb5b9.woff') format('woff'), /* Pretty Modern Browsers */
-    url('http://colonial.one/assets/79e13e-Regular-R141126-webb5b9.ttf') format('truetype');
-    /* Safari, Android, iOS */
-}
-
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed');
 body {
-    font-family: 'CoolMonospace', monospace;
+    font-family: 'Encode Sans Condensed', sans-serif;
     color: black;
-    background-color: lightcyan;
     font-size: 1.1em;
-    /*Fuzzy dots in the background*/
-    background-image: radial-gradient(white 10%, transparent 76%), radial-gradient(white 10%, transparent 66%);
-    background-size: 50px 60px;
-    background-position: 0 0, 30px 30px;
+    background-color: #fffbf4;
 }
 
 a {
     transition: 0.5s ease-in-out;
-    color: blue;
+    color: #9bc1bc;
 }
 
 a:hover {
@@ -42,25 +31,30 @@ a:hover {
 }
 
 #titlebar span {
-    color: lightcyan;
+    color: #fffbf4;
     font-weight: bold;
     font-size: 2em;
-    background-color: orchid;
-    border-bottom: 5px orchid solid;
-    border-top: 5px orchid solid;
-    border-left: 15px orchid solid;
-    border-right: 15px orchid solid;
+    background-color: #ed6a5a;
+    border-bottom: 5px #9bc1bc solid;
+    border-top: 5px #ed6a5a solid;
+    border-left: 15px #ed6a5a solid;
+    border-right: 5px #9bc1bc solid;
+    padding-right: 10px;
     transition: 0.5s ease-in-out;
 }
 
 #titlebar span:hover {
-    background-color: royalblue;
-    border-color: royalblue;
+    background-color: #9bc1bc;
+    border-bottom: 5px #ed6a5a solid;
+    border-top: 5px #9bc1bc solid;
+    border-left: 15px #9bc1bc solid;
+    border-right: 5px #ed6a5a solid;
+    color: #fffbf4;
 }
 
 #titlebar a {
     text-decoration: none;
-    color: lightcyan;
+    color: #fffbf4;
 }
 
 #titlebar:after {
@@ -74,6 +68,39 @@ a:hover {
     margin-top: -5px;
 }
 
+#intro {
+    padding-bottom: 1em;
+    border-bottom: 3px #ed6a5a dotted;
+}
+
+#intro img#profilepic {
+    width: 45%;
+    border-radius: 40%;
+    float: right;
+    padding-left: 1em;
+    margin-top: -4em;
+    box-shadow: 2px 3px #ed6a5a;
+}
+
+
+/* Effect taken from http://bennettfeely.com/image-effects/ */
+
+.infrared-effect {
+    background-image: url("https://raw.githubusercontent.com/Zedelghem/pystatic/master/templates/assets/katie_pic.jpeg");
+    background-size: cover;
+    background-position: center;
+    filter: hue-rotate(180deg) saturate(2);
+}
+
+
+/**/
+
+#intro p {
+    border-left: 5px #ed6a5a solid;
+    padding-left: 1em;
+    font-size: 0.9em;
+}
+
 .postcontent {
     line-height: 1.5em;
     margin-top: 30px;
@@ -81,11 +108,11 @@ a:hover {
 
 .post .postcontent:after {
     content: "KONIEC";
-    color: lightcyan;
+    color: #fffbf4;
     font-weight: bold;
-    background-color: royalblue;
-    border-left: 5px royalblue solid;
-    border-right: 5px royalblue solid;
+    background-color: #ed6a5a;
+    border-left: 5px #ed6a5a solid;
+    border-right: 5px #ed6a5a solid;
 }
 
 .post .name,
@@ -139,18 +166,17 @@ ul.postlist li span.date {
     padding-left: 5%;
     font-size: 0.7em;
     float: right;
-    color: royalblue;
     font-weight: bold;
 }
 
-ul.postlist li a.title {
+ul.postlist li span.title a {
     color: black;
     transition: 0.5s ease-in-out;
     text-decoration: none;
 }
 
-ul.postlist li a.title:hover {
-    color: orchid;
+ul.postlist li span.title a:hover {
+    color: #ed6a5a;
 }
 
 .footer_proper {
