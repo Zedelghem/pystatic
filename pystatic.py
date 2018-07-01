@@ -246,7 +246,7 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
         print("Tried to copy contents of", css_and_assets_path, "/css folder but the folder does not exist! Make one, even empty!")
     
     try:
-        copytree(css_and_assets_path + "assets", "site/assets")
+        copytree(css_and_assets_path + "/assets", "site/assets")
     except:
         print("Tried to copy contents of", css_and_assets_path, "/assets folder but the folder does not exist! Make one, even empty!")
     
