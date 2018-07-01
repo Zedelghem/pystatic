@@ -71,7 +71,7 @@ function (in the build.py file) with only one variable, path of the folder where
 
     'Author' is an option for multi-author blogs. It assigns an author to a particular post if you want it.
 
-    'Timestamp' overwrites the date in the filename and assign time to the post so it can be used to pick order of posts published the same day.
+    'Timestamp' overwrites the date in the filename and assigns time to the post so it can be used to handpick order of posts published on the same day.
 
 3. The script does two main things. First, it generates an unordered list (\<ul>) of all posts and injects it to the template file for index.html. It does so by replacing a placeholder, by default it's '<!--###POSTS_LIST###-->'. Second, for every post it converts its content from Markdown to HTML (using Python markdown library) and creates a file for it using a template file for post. It also does so by replacing a placeholder, '<!--###POST_CONTENT###-->' by default.
 
@@ -96,7 +96,7 @@ build_website(in_path, ignore_empty_posts=True, index_template="templates/index.
 ```
 Most of them are self explanatory. However, I explain all of them below for clarity.
 
-**in_path** is where the path of the folder with posts files. 
+**in_path** is the path of the folder with posts files. 
 
 **ignore_empty_posts** sets whether you want to include empty posts in the list of posts on the main page as well as their files in the posts folder in the built site folder.
 
