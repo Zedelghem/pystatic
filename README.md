@@ -1,3 +1,14 @@
+        ██████╗ ██╗   ██╗███████╗████████╗ █████╗ ████████╗██╗ ██████╗
+        ██╔══██╗╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██║██╔════╝
+        ██████╔╝ ╚████╔╝ ███████╗   ██║   ███████║   ██║   ██║██║     
+        ██╔═══╝   ╚██╔╝  ╚════██║   ██║   ██╔══██║   ██║   ██║██║     
+        ██║        ██║   ███████║   ██║   ██║  ██║   ██║   ██║╚██████╗
+        ╚═╝        ╚═╝   ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝
+
+┌─┐┌┬┐┌─┐┌┬┐┬┌─┐  ┌┐ ┬  ┌─┐┌─┐┌─┐┬┌┐┌┌─┐  ┌┬┐┬ ┬┌─┐  ┌─┐┬ ┬┌┬┐┬ ┬┌─┐┌┐┌  ┬ ┬┌─┐┬ ┬
+└─┐ │ ├─┤ │ ││    ├┴┐│  │ ││ ┬│ ┬│││││ ┬   │ ├─┤├┤   ├─┘└┬┘ │ ├─┤│ ││││  │││├─┤└┬┘
+└─┘ ┴ ┴ ┴ ┴ ┴└─┘  └─┘┴─┘└─┘└─┘└─┘┴┘└┘└─┘   ┴ ┴ ┴└─┘  ┴   ┴  ┴ ┴ ┴└─┘┘└┘  └┴┘┴ ┴ ┴ 
+
 # pystatic
 Dead simple static site generator. To build a website you need only one line of Python, the rest is Markdown, HTML, and CSS.
 
@@ -90,11 +101,14 @@ function (in the build.py file) with only one variable, path of the folder where
 
     I will think about accounting for it automatically but for now I think it would unnecessarily increase the number of options to keep in mind before running the script. I think it is easy enough to add two dots on your own.
 
-## For tweakers: detailed structure of the build_website() function
+## For tweakers: configuration file
+As of version 1.1 (July 23, 2018) pystatic ships with a human-readable configuration file. It means you can set all of the options below without handling the code. Just open the CONFIG file in a text editor and follow the instructions.
+
+### For ultratweakers: detailed structure of the build_website() function
 The build_website() function has one positional (required) and eleven keyword arguments.
 
 ```python
-build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp'])
+build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp'])
 ```
 Most of them are self explanatory. However, I explain all of them below for clarity.
 

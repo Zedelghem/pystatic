@@ -1,17 +1,39 @@
-################################################
-################################################
-###              Pystatic, v 1.0             ###
-###                                          ###
-###            as of March 13, 2018          ###
-###  https://github.com/Zedelghem/pystatic/  ###
-###                                          ###
-###                     by                   ###
-###                                          ###
-###              Borys Jastrzębski           ###
-###                                          ### 
-###         Licensed under GNU GPL 3.0       ###
-################################################
-################################################
+#        ██████╗ ██╗   ██╗███████╗████████╗ █████╗ ████████╗██╗ ██████╗
+#        ██╔══██╗╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██║██╔════╝
+#        ██████╔╝ ╚████╔╝ ███████╗   ██║   ███████║   ██║   ██║██║     
+#        ██╔═══╝   ╚██╔╝  ╚════██║   ██║   ██╔══██║   ██║   ██║██║     
+#        ██║        ██║   ███████║   ██║   ██║  ██║   ██║   ██║╚██████╗
+#        ╚═╝        ╚═╝   ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝
+#
+#┌─┐┌┬┐┌─┐┌┬┐┬┌─┐  ┌┐ ┬  ┌─┐┌─┐┌─┐┬┌┐┌┌─┐  ┌┬┐┬ ┬┌─┐  ┌─┐┬ ┬┌┬┐┬ ┬┌─┐┌┐┌  ┬ ┬┌─┐┬ ┬
+#└─┐ │ ├─┤ │ ││    ├┴┐│  │ ││ ┬│ ┬│││││ ┬   │ ├─┤├┤   ├─┘└┬┘ │ ├─┤│ ││││  │││├─┤└┬┘
+#└─┘ ┴ ┴ ┴ ┴ ┴└─┘  └─┘┴─┘└─┘└─┘└─┘┴┘└┘└─┘   ┴ ┴ ┴└─┘  ┴   ┴  ┴ ┴ ┴└─┘┘└┘  └┴┘┴ ┴ ┴ 
+#
+##################################################################################
+##################################################################################
+###                         This is the build file for                         ###
+###                                                                            ###
+###                              Pystatic, v 1.1                               ###
+###                                                                            ###
+###                            as of July 23, 2018                             ###
+###                  https://github.com/Zedelghem/pystatic/                    ###
+###                                                                            ###
+###                                      by                                    ###
+###                                                                            ###
+###                              Borys Jastrzębski                             ###
+###                                                                            ### 
+###                          Licensed under GNU GPL 3.0                        ###
+###                                                                            ###
+###     Before attempting any changes in this file, please make sure you've    ###
+###     read the documentation on the GitHub page of the project. I kept it    ###
+###     concise and it can save you a lot of trouble.                          ###
+###                                                                            ###
+###     Also, take a look at the discussion on the GitHub forums before        ###
+###     writing an extension to Pystatic. I might already be working on        ###
+###     a similar feature.                                                     ###
+###                                                                            ###
+##################################################################################
+##################################################################################
 
 import glob
 from dateutil import parser
@@ -193,7 +215,63 @@ def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST##
     output_file.write(target)
     output_file.close()
 
+def strRepresentsInt(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+def parse_config(filename):
+    # Load in the config file and close it
+    cfg_file = open(filename, "r")
+    cfg_lines = cfg_file.readlines()
+    cfg_file.close()
+
+    # Extract options, i.e. lines with "$", and drop "$"
+    cfg = [line[1:] for line in cfg_lines if line[0] == "$"]
+
+    # Create a dict of options
+    options = {}
+    for option in cfg:
+        options[option.split(":")[0]] = option.split(":")[1].strip()
+
+    # Extract positional arguments
+    # For now it means only: in_path
+    positional_args = [options["in_path"]]
+    del options["in_path"]    
+
+    # Extract arguments coming in lists
+    # For now it means: obligatory_header and optional_header
+    # If more list-valued arguments pop up, add them to list_args
+    list_args = ["obligatory_header", "optional_header"]
+    for arg in list_args:
+        options[arg] = options[arg].split(", ")
     
+    # Look for potential booleans and ints to convert
+    for key, val in options.items():
+        if val in ["True", "False"]:
+            try:
+                if val == "True":
+                    options[key] =  True
+                elif val == "False":
+                    options[key] = False
+            except ValueError:
+                prin("Trouble converting a boolean-like string to a boolean value.")
+        
+        if type(val) is not list and strRepresentsInt(val) == True:
+            try:
+                options[key] = int(val)
+            except ValueError:
+                print("Trouble converting an integer-like string to an integer.")
+
+    # Combine all the arguments into the final list of options
+    list_of_options = []
+    list_of_options.extend(positional_args)
+    list_of_options.append(options.copy())
+
+    return list_of_options
+
 def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp']):
     # Call everything
     try:

@@ -1,0 +1,187 @@
+
+
+        ██████╗ ██╗   ██╗███████╗████████╗ █████╗ ████████╗██╗ ██████╗
+        ██╔══██╗╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██║██╔════╝
+        ██████╔╝ ╚████╔╝ ███████╗   ██║   ███████║   ██║   ██║██║     
+        ██╔═══╝   ╚██╔╝  ╚════██║   ██║   ██╔══██║   ██║   ██║██║     
+        ██║        ██║   ███████║   ██║   ██║  ██║   ██║   ██║╚██████╗
+        ╚═╝        ╚═╝   ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝
+
+┌─┐┌┬┐┌─┐┌┬┐┬┌─┐  ┌┐ ┬  ┌─┐┌─┐┌─┐┬┌┐┌┌─┐  ┌┬┐┬ ┬┌─┐  ┌─┐┬ ┬┌┬┐┬ ┬┌─┐┌┐┌  ┬ ┬┌─┐┬ ┬
+└─┐ │ ├─┤ │ ││    ├┴┐│  │ ││ ┬│ ┬│││││ ┬   │ ├─┤├┤   ├─┘└┬┘ │ ├─┤│ ││││  │││├─┤└┬┘
+└─┘ ┴ ┴ ┴ ┴ ┴└─┘  └─┘┴─┘└─┘└─┘└─┘┴┘└┘└─┘   ┴ ┴ ┴└─┘  ┴   ┴  ┴ ┴ ┴└─┘┘└┘  └┴┘┴ ┴ ┴ 
+
+
+##############################################################################
+##############################################################################
+###                   This is a configuration file for                     ###
+###                           Pystatic, v 1.1                              ###
+###                (https://github.com/Zedelghem/pystatic),                ###
+###                   a dead simple static blog generator                  ###
+###                          by Borys Jastrzębski.                         ###
+###                                                                        ###
+###    Follow the instructions above each option and you will be alright.  ###
+###    As a general rule, enter things without quotation marks,            ###
+###    evertyhing will be converted to a proper format automatically.      ###
+###                                                                        ###
+###    If you wish to disable an option and use a default value,           ###
+###    remove the dollar sign ($) in front of the option name.             ###
+##############################################################################
+##############################################################################
+
+in_path sets the path to the folder with posts files.
+
+This is the only required option so do not leave it empty
+and make sure the path is correct.
+
+$in_path: posts
+
+------------------------------------------------------------------------------
+
+ignore_empty_posts sets whether you want to include empty posts 
+in the list of posts on the main page as well as their files 
+in the posts folder in the built site folder.
+
+Remember about uppercase.
+
+$ignore_empty_posts: True
+
+------------------------------------------------------------------------------
+
+index_template gives the path to the template file
+for the index page (with posts list).
+
+$index_template: templates/index.html
+
+------------------------------------------------------------------------------
+
+post_template gives the path to the template file
+for the individual post page.
+
+$post_template: templates/post.html
+
+------------------------------------------------------------------------------
+
+css_and_assets_path sets the path for the folder holding css/, assets/
+and lib/ folder. Note that changing this does not change the path for 
+template files. You need to set them separately.
+
+$css_and_assets_path: templates
+
+------------------------------------------------------------------------------
+
+extension sets file extension for your posts files. At the moment 
+it does no really make sanse to change it. For now all posts are 
+by default parsed through markdown library and thus they should be 
+written using markdown. However, the parser does not care about 
+file extension. Therefore if you really want (or for some strange 
+reasons need) to store your files in .txt or any other format, 
+you may do so.
+
+$extension: md
+
+------------------------------------------------------------------------------
+
+index_paste_where sets the placeholder for the <ul> with posts list 
+to be injected into the index page template.
+
+$index_paste_where: <!--###POSTS_LIST###-->
+
+------------------------------------------------------------------------------
+
+post_paste_where sets the placeholder for the post content
+to be injected into the post template file.
+
+$post_paste_where: <!--###POST_CONTENT###-->
+
+------------------------------------------------------------------------------
+
+ul_class sets the class of the <ul> holding the list of your posts
+on the main website.
+
+$ul_class: postlist
+
+------------------------------------------------------------------------------
+
+post_wrapper sets the class of the <div> where the content of your post 
+is stored in the individual post's .html file.
+
+$post_wrapper: postcontent
+
+------------------------------------------------------------------------------
+
+headerseparator, obviously, sets the string that separates header from 
+the content of the post. If for some reasons you need the first "---"
+of your post file to be left in the post content, change this feature.
+
+$headerseparator: ---
+
+------------------------------------------------------------------------------
+
+obligatory_header provides a list of header options required by the 
+generator to build post content and thus include the post in the 
+built website. If you really want to always require yourself to 
+include author and timestamp, you might add these two to the list.
+
+Enter with commas between elements of the list.
+Remember about a space after every comma.
+
+$obligatory_header: title
+
+------------------------------------------------------------------------------
+
+optional_header provides a list of optional header options.
+Expanding it will not change anything at this moment.
+However, deleting one of the options will make it unusable.
+I would not change anything here for now.
+
+Enter with commas between elements of the list.
+Remember about a space after every comma.
+
+$optional_header: author, timestamp
+
+
+
+                                           ##
+                                        #######
+                                    ##############
+                                #####################
+                            ############################
+                        ###################################
+                    ##########################################
+                #################################################
+            ########################################################
+        ###############################################################
+    #######################################################################
+##############################################################################
+         __          __     _____  _   _ _____ _   _  _____ 
+         \ \        / /\   |  __ \| \ | |_   _| \ | |/ ____|
+          \ \  /\  / /  \  | |__) |  \| | | | |  \| | |  __ 
+           \ \/  \/ / /\ \ |  _  /| . ` | | | | . ` | | |_ |
+            \  /\  / ____ \| | \ \| |\  |_| |_| |\  | |__| |
+             \/  \/_/    \_\_|  \_\_| \_|_____|_| \_|\_____|
+                                                    
+##############################################################################
+##############################################################################
+------------------------------------------------------------------------------
+--- PROPOSED CONFIGURATION OF FEATURES TO BE IMPLEMENTED IN FUTURE COMMITS ---
+---   DO NOT ADD A DOLLAR SIGN ($) IN FRONT OF ANY OF THE OPTIONS BELOW    ---
+------------------------------------------------------------------------------
+##############################################################################
+##############################################################################
+
+posts_per_page sets the number of posts per page of the list
+of posts. If posts_per_page is set to 0, pagination is turned off.
+
+posts_per_page: 0
+
+------------------------------------------------------------------------------
+
+excerpt_len sets length of the excerpt to be displayed alongsided
+the post title on the post list. If excerpt_len is set to 0, no
+excerpt is displayed.
+
+excerpt_len: 0
+
+------------------------------------------------------------------------------
+
