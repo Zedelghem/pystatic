@@ -27,12 +27,16 @@ pip install markdown
 ## Description
 There are multiple Python-based static site generators but I wanted something extremely simple, even primitive; something you could use knowing zero Python and perhaps never even having to tweak options. A tool for everyone not willing to struggle with servers or learn a CMS just to write stuff. Lo and behold, here comes pystatic.
 
-The pipeline is incredibly straightforward. You call the
+The pipeline is incredibly straightforward. You may call the
 ```python
 build_website("posts")
 ```
 
-function (in the build.py file) with only one variable, path of the folder where you keep your posts, and the script builds your website with two templates, one for the main page and one for the post page. Posts should be written in markdown. You style templates in a .css file. The complete website is saved in the site folder. That's it. Folder structure is as follows.
+function with only one variable, path of the folder where you keep your posts, and the script builds your website with two templates, one for the main page and one for the post page. Posts should be written in markdown. You style templates in a .css file. The complete website is saved in the site folder. That's it.
+
+> For the sake of future extensions the build_website function call in the build.py file looks slightly more complicated. It calls another function which reads in the configuration file, easy to understand by humans. So now you do not need to edit even that one line of code yourself. You can head straight to the CONFIG file.
+
+Folder structure is as follows.
 ```
 |- pystatic.py
 |- build.py
