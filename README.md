@@ -40,6 +40,9 @@ Folder structure is as follows.
 ```
 |- pystatic.py
 |- build.py
+|- CONFIG
+|- LICENSE
+|-
 |- templates/
 |-- index.html
 |-- post.html
@@ -50,6 +53,7 @@ Folder structure is as follows.
 |-- assets/
 |--- (empty by default) whatever additional files you need
 |--- ...
+|-
 |- posts/
 |-- 2018-03-12_best_title.md
 |-- ...
