@@ -107,7 +107,7 @@ function (in the build.py file) with only one variable, path of the folder where
 ## For tweakers: configuration file
 As of version 1.1 (July 23, 2018) pystatic ships with a human-readable configuration file. It means you can set all of the options below without handling the code. Just open the CONFIG file in a text editor and follow the instructions.
 
-### For ultratweakers: detailed structure of the build_website() function
+## For ultratweakers: detailed structure of the build_website() function
 The build_website() function has one positional (required) and eleven keyword arguments.
 
 ```python
