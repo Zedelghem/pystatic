@@ -33,4 +33,4 @@
 
 from pystatic import *
 
-build_website(parse_config("config")[0], **parse_config("config")[1])
+build_website(parse_config("pystatic.cfg")[0], **parse_config("pystatic.cfg")[1])
