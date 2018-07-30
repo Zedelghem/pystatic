@@ -69,6 +69,26 @@ Folder structure is as follows.
 |-- lib/
 ```
 
+## Quick start
+
+Install and run pystatic in three simple steps:
+
+1. Clone, fork or otherwise install this repo from GitHub, i.e.:
+
+```
+git clone https://github.com/Zedelghem/pystatic.git
+```
+
+2. Navigate to the location where the pystatic build.py file was installed
+```
+cd /path/to/pystatic (where build.py lives)
+```
+
+3. Run the build script from the command line:
+```
+python build.py
+```
+
 ## Main information (enough to get things done)
 1. Every post is a separate file. Filenames should look as follows:
     ```
