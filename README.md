@@ -172,7 +172,16 @@ The two features below were introduced with ease of possible further development
 **optional_header** provides a list of optional header options. Expanding it will not change anything at this moment. However, deleting one of the options will make it unusable. I would not change anything here for now.
 
 ## Roadmap?
-There are, of course, tons of options that might be added like import or export to particular CMS, support for manipulation and creation of templates from the script, reading other than Markdown text-to-HTML interpreters, etc. However, I am rather happy with this version and for now I do not see any need to expand it for my purposes. I will think about extension if I come across a problem that bothers me or if anyone else ever uses pystatic. ;)
+There are, of course, tons of options that might be added like import or export to particular CMS, support for manipulation and creation of templates from the script, reading other than Markdown text-to-HTML interpreters, etc. ~~However, I am rather happy with this version and for now I do not see any need to expand it for my purposes. I will think about extension if I come across a problem that bothers me or if anyone else ever uses pystatic. ;)~~
+
+Okay, so things changed a bit. There was a fantastic response from @alex7217, also I need to implement a bilingual blog for myself, and some new features are coming:
+
+1. Optional excerpts,
+2. Option for pagination,
+3. An optional navigation / tag filtering system,
+4. Some new templates.
+
+All of this will be done with utmost simplicity of use in mind. So worry not - the spirit of pystatic is not lost!
 
 If you are looking for a similar ready to go tool, full of options, just browse https://www.staticgen.com.
 
