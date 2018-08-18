@@ -49,9 +49,9 @@ Folder structure is as follows.
 |-- css/
 |--- style.css
 |-- lib/
-|--- (empty by default) any additional scripts you might need
+|--- scripts.js (empty by default)
 |-- assets/
-|--- (empty by default) whatever additional files you need
+|--- whatever additional files you need
 |--- ...
 |-
 |- posts/
@@ -67,6 +67,7 @@ Folder structure is as follows.
 |--- style.css
 |-- assets/
 |-- lib/
+|--- scripts.js
 ```
 
 ## Quick start
