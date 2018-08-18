@@ -1,5 +1,4 @@
 
 templates/.DS_Store
 .DS_Store
-.DS_Store
-templates/.DS_Store
+__pycache__/
