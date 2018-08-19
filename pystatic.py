@@ -47,7 +47,7 @@ locale.setlocale(locale.LC_ALL, '')
 
 # Setting up the post class to make things clearer and easier
 class Post (object):
-    def __init__(self, path, filename, author='boro93', extension="md"):
+    def __init__(self, path, filename, author='Author', extension="md"):
         self.path = path
         self.filename = filename
         self.extension = extension
@@ -59,7 +59,7 @@ class Post (object):
         else:
             self.date = parser.parse(self.filename.split(titleseparator)[0]).strftime(date_format).capitalize()
     
-    def get_content(self, headerseparator="---", obligatory=['title'], optional=['author', 'timestamp']):
+    def get_content(self, headerseparator="---", obligatory=['title'], optional=['author', 'timestamp', "tags"]):
         
         # Completing the post list by importing title and content from the files
         ########################################################################
@@ -81,22 +81,25 @@ class Post (object):
         # Extract header
         raw_header = current_post[0].rstrip().split("\n")
         
-        # Extract header details and assign them to self.options
+        # Extract header details and store them in a dictionary
         header = {}
         for entry in raw_header:
             if entry.split(": ")[0] in obligatory + optional:
                 header[entry.split(": ")[0]] = entry.split(": ")[1]
         
-        # If title was not set, 
+        # If title was not set
         try:
             self.title = header['title']
         except:
             print("You need to set title in the header of the post", self.filename, "!")
         
+        # Check for and assign optional header declarations
         if 'author' in header.keys():
             self.author = header['author']
         if 'timestamp' in header.keys():
             self.timestamp = header['timestamp']
+        if 'tags' in header.keys():
+            self.tags = header['tags']
         
         # Delete header from current_post
         del(current_post[0])
@@ -161,10 +164,11 @@ def build_site_folders():
     makedirs("site/posts", exist_ok=True)
     makedirs("site/assets", exist_ok=True)
     makedirs("site/css", exist_ok=True)
+    makedirs("site/lib", exist_ok=True)
 
 def inject_markdowned_content(post_object, paste_where, wrapper_class, template):
     content_html = markdown.markdown(post_object.content)
-    target = template.replace(paste_where, '<div class="' + wrapper_class + '">' + content_html + '</div>')
+    target = template.replace(paste_where, '<div class="' + wrapper_class + " " + post_object.tags + '">' + content_html + '</div>')
 
     output_file = codecs.open("site/posts/" + post_object.filename + ".html", "w", encoding="utf-8", errors="xmlcharrefreplace")
     output_file.write(target)
@@ -200,9 +204,9 @@ def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST##
                 print("Not adding", post.filename, "to the posts folder. It is empty! Write something before publishing. ;)")
                 continue
             else:
-                ul_list.append('<li><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span></li>')
+                ul_list.append('<li class="' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span></li>')
         else:
-            ul_list.append('<li><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span></li>')
+            ul_list.append('<li class="' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span></li>')
     
     ul_list.append("</ul>")
     

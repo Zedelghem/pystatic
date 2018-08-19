@@ -1,207 +1,214 @@
-@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed');
-body {
-    font-family: 'Encode Sans Condensed', sans-serif;
-    color: black;
-    font-size: 1.1em;
-    background-color: #fffbf4;
-}
-
-a {
-    transition: 0.5s ease-in-out;
-    color: #9bc1bc;
-}
-
-a:hover {
-    color: orchid;
-}
-
-#wrapper {
-    margin: auto;
-    width: 50%;
-    padding: 5%;
-}
-
-#wrapper.index,
-#wrapper.post {
-    max-width: 600px;
-}
-
-#titlebar {
-    margin-bottom: 5%;
-}
-
-#titlebar span {
-    color: #fffbf4;
-    font-weight: bold;
-    font-size: 2em;
-    background-color: #ed6a5a;
-    border-bottom: 5px #9bc1bc solid;
-    border-top: 5px #ed6a5a solid;
-    border-left: 15px #ed6a5a solid;
-    border-right: 5px #9bc1bc solid;
-    padding-right: 10px;
-    transition: 0.5s ease-in-out;
-}
-
-#titlebar span:hover {
-    background-color: #9bc1bc;
-    border-bottom: 5px #ed6a5a solid;
-    border-top: 5px #9bc1bc solid;
-    border-left: 15px #9bc1bc solid;
-    border-right: 5px #ed6a5a solid;
-    color: #fffbf4;
-}
-
-#titlebar a {
-    text-decoration: none;
-    color: #fffbf4;
-}
-
-#titlebar:after {
-    content: "my personal blog \A on my personal life";
-    font-style: italic;
-    white-space: pre;
-    position: absolute;
-    vertical-align: super;
-    font-size: 0.7em;
-    padding-left: 1em;
-    margin-top: -5px;
-}
-
-#intro {
-    padding-bottom: 1em;
-    border-bottom: 3px #ed6a5a dotted;
-}
-
-#intro img#profilepic {
-    width: 45%;
-    border-radius: 40%;
-    float: right;
-    padding-left: 1em;
-    margin-top: -4em;
-    box-shadow: 2px 3px #ed6a5a;
-}
-
-
-/* Effect taken from http://bennettfeely.com/image-effects/ */
-
-.infrared-effect {
-    background-image: url("https://raw.githubusercontent.com/Zedelghem/pystatic/master/templates/assets/katie_pic.jpeg");
-    background-size: cover;
-    background-position: center;
-    filter: hue-rotate(180deg) saturate(2);
-}
-
-
-/**/
-
-#intro p {
-    border-left: 5px #ed6a5a solid;
-    padding-left: 1em;
-    font-size: 0.9em;
-}
-
-.postcontent {
-    line-height: 1.5em;
-    margin-top: 30px;
-}
-
-.post .postcontent:after {
-    content: "KONIEC";
-    color: #fffbf4;
-    font-weight: bold;
-    background-color: #ed6a5a;
-    border-left: 5px #ed6a5a solid;
-    border-right: 5px #ed6a5a solid;
-}
-
-.post .name,
-.post .date {
-    color: blue;
-    font-weight: bold;
-}
-
-.post .name:after,
-.post .date:after {
-    font-weight: bold;
-    color: red;
-}
-
-.post .name:after {
-    content: "@";
-}
-
-.post .date:after {
-    content: " $"
-}
-
-.post .title {
-    font-weight: bold;
-    color: orchid;
-}
-
-.post .title:after {
-    content: " >>";
-    color: red;
-}
-
-.footer_back {
-    margin: 5%;
-    color: black;
-    font-weight: bold;
-    font-size: 0.9em;
-}
-
-ul.postlist {
-    padding-left: 0px;
-}
-
-ul.postlist li {
-    list-style-type: none;
-    color: black;
-}
-
-ul.postlist li span.date {
-    margin-top: 5px;
-    padding-left: 5%;
-    font-size: 0.7em;
-    float: right;
-    font-weight: bold;
-}
-
-ul.postlist li span.title a {
-    color: black;
-    transition: 0.5s ease-in-out;
-    text-decoration: none;
-}
-
-ul.postlist li span.title a:hover {
-    color: #ed6a5a;
-}
-
-.footer_proper {
-    font-style: italic;
-    float: right;
-    font-size: 0.7em;
-}
-
-@media only screen and (max-width: 650px) {
-    /* For mobile phones: */
-    #wrapper {
-        width: 85%;
-    }
-    #titlebar:after {
-        position: absolute;
-        float: left;
-        padding-left: 5px;
-        padding-bottom: 5px;
-        display: block;
-        margin-top: 15px;
-        border-left: 5px solid orchid;
-        border-bottom: 3px dashed orchid;
-    }
-    .postcontent,
-    .postlist {
-        margin-top: 70px;
-    }
-}
+        @import url('https://fonts.googleapis.com/css?family=Encode+Sans+Condensed');
+        html {
+            background-color: #fffbf4;
+            height: 100vh;
+        }
+        
+        body {
+            font-family: 'Encode Sans Condensed', sans-serif;
+            color: black;
+            font-size: 1.1em;
+            background-color: #fffbf4;
+            height: 100%;
+        }
+        
+        a {
+            transition: 0.5s ease-in-out;
+            color: #9bc1bc;
+        }
+        
+        a:hover {
+            color: orchid;
+        }
+        
+        #wrapper {
+            margin: auto;
+            width: 50%;
+            padding: 5%;
+        }
+        
+        #wrapper.index,
+        #wrapper.post {
+            max-width: 600px;
+        }
+        
+        #titlebar {
+            margin-bottom: 5%;
+            display: inline-block;
+            z-index: 10;
+        }
+        
+        #titlebar span {
+            color: #fffbf4;
+            font-weight: bold;
+            font-size: 2em;
+            background-color: #ed6a5a;
+            border-bottom: 5px #9bc1bc solid;
+            border-top: 5px #ed6a5a solid;
+            border-left: 15px #ed6a5a solid;
+            border-right: 5px #9bc1bc solid;
+            padding-right: 10px;
+            transition: 0.5s ease-in-out;
+        }
+        
+        #titlebar span:hover {
+            background-color: #9bc1bc;
+            border-bottom: 5px #ed6a5a solid;
+            border-top: 5px #9bc1bc solid;
+            border-left: 15px #9bc1bc solid;
+            border-right: 5px #ed6a5a solid;
+            color: #fffbf4;
+        }
+        
+        #titlebar a {
+            text-decoration: none;
+            color: #fffbf4;
+        }
+        
+        #titlebar:after {
+            content: "my personal blog \A on my personal life";
+            font-style: italic;
+            white-space: pre;
+            position: absolute;
+            vertical-align: super;
+            font-size: 0.7em;
+            padding-left: 1em;
+            margin-top: -5px;
+            display: none;
+        }
+        
+        #intro {
+            padding-bottom: 1em;
+            border-bottom: 3px #ed6a5a dotted;
+        }
+        
+        #intro img#profilepic {
+            width: 45%;
+            border-radius: 40%;
+            float: right;
+            padding-left: 1em;
+            margin-top: -4em;
+            box-shadow: 2px 3px #ed6a5a;
+            z-index: -1;
+        }
+        /* Effect taken from http://bennettfeely.com/image-effects/ */
+        
+        .infrared-effect {
+            background-image: url("https://raw.githubusercontent.com/Zedelghem/pystatic/master/templates/assets/katie_pic.jpeg");
+            background-size: cover;
+            background-position: center;
+            filter: hue-rotate(180deg) saturate(2);
+        }
+        /**/
+        
+        #intro p {
+            border-left: 5px #ed6a5a solid;
+            padding-left: 1em;
+            font-size: 0.9em;
+        }
+        
+        .postcontent {
+            line-height: 1.5em;
+            margin-top: 30px;
+        }
+        
+        .post .postcontent:after {
+            content: "KONIEC";
+            color: #fffbf4;
+            font-weight: bold;
+            background-color: #ed6a5a;
+            border-left: 5px #ed6a5a solid;
+            border-right: 5px #ed6a5a solid;
+        }
+        
+        .post .name,
+        .post .date {
+            color: blue;
+            font-weight: bold;
+        }
+        
+        .post .name:after,
+        .post .date:after {
+            font-weight: bold;
+            color: red;
+        }
+        
+        .post .name:after {
+            content: "@";
+        }
+        
+        .post .date:after {
+            content: " $"
+        }
+        
+        .post .title {
+            font-weight: bold;
+            color: orchid;
+        }
+        
+        .post .title:after {
+            content: " >>";
+            color: red;
+        }
+        
+        .footer_back {
+            margin: 5%;
+            color: black;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        ul.postlist {
+            padding-left: 0px;
+        }
+        
+        ul.postlist li {
+            list-style-type: none;
+            color: black;
+        }
+        
+        ul.postlist li span.date {
+            margin-top: 5px;
+            padding-left: 5%;
+            font-size: 0.7em;
+            float: right;
+            font-weight: bold;
+        }
+        
+        ul.postlist li span.title a {
+            color: black;
+            transition: 0.5s ease-in-out;
+            text-decoration: none;
+        }
+        
+        ul.postlist li span.title a:hover {
+            color: #ed6a5a;
+        }
+        
+        .footer_proper {
+            font-style: italic;
+            float: right;
+            font-size: 0.7em;
+        }
+        
+        @media only screen and (max-width: 650px) {
+            /* For mobile phones: */
+            #wrapper {
+                width: 85%;
+            }
+            #titlebar:after {
+                position: absolute;
+                float: left;
+                padding-left: 5px;
+                padding-bottom: 5px;
+                display: block;
+                margin-top: 15px;
+                border-left: 5px solid orchid;
+                border-bottom: 3px dashed orchid;
+                display: none;
+            }
+            .postcontent,
+            .postlist {
+                margin-top: 70px;
+            }
+        }
