@@ -188,7 +188,7 @@ There are, of course, tons of options that might be added like import or export 
 Okay, so things changed a bit. There was a fantastic response from @alex7217, also I need to implement a bilingual blog for myself, and some new features are coming:
 
 1. ~~Optional excerpts~~ (Done),
-2. Option for pagination,
+2. ~~Option for pagination~~ (Done),
 3. An optional navigation / ~~tag filtering system~~ (Done),
 4. Some new templates.
 
