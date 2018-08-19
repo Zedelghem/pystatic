@@ -185,6 +185,13 @@
             color: #ed6a5a;
         }
         
+        ul.postlist li div.excerpt {
+            background-color: rgba(155, 193, 188, 0.3);
+            margin-left: 1em;
+            margin-bottom: 2em;
+            padding-left: 1em;
+        }
+        
         .footer_proper {
             font-style: italic;
             float: right;

@@ -106,6 +106,26 @@ class Post (object):
         
         # Extract content
         self.content = current_post[0].rstrip()
+    
+    # I left an option for sentences as a unit of excerpt_len
+    # Not working properly now – doesn't crash but tuned only to fullstops.
+    def get_excerpt(self, len_type="chars", excerpt_len="500"):
+
+        parsed_content = markdown.markdown(self.content)
+
+        try:
+            length = int(excerpt_len)
+        except:
+            print("Could not change the type of excerpt_len to int")
+
+        if len_type == "chars":
+            excerpt_ready = parsed_content[:length]
+        elif len_type == "words":
+            excerpt_ready = " ".join(parsed_content.split(" ")[:length])
+        elif len_type == "sentences":
+            excerpt_ready = ". ".join(parsed_content.split(". ")[:length])
+
+        self.excerpt = excerpt_ready.rstrip() + "..."
 
 
 # Function to generate post objects for every file of specific extention in a given path
@@ -168,7 +188,7 @@ def build_site_folders():
 
 def inject_markdowned_content(post_object, paste_where, wrapper_class, template):
     content_html = markdown.markdown(post_object.content)
-    target = template.replace(paste_where, '<div class="' + wrapper_class + " " + post_object.tags + '">' + content_html + '</div>')
+    target = template.replace(paste_where, '<h1 class="post_title">' + post_object.title + '</h1> \n <div class="' + wrapper_class + " " + post_object.tags + '">' + content_html + '</div>')
 
     output_file = codecs.open("site/posts/" + post_object.filename + ".html", "w", encoding="utf-8", errors="xmlcharrefreplace")
     output_file.write(target)
@@ -192,21 +212,27 @@ def build_posts_folder(posts_list, template_file, in_path="posts", ignore_empty=
             inject_markdowned_content(post, paste_where, wrapper_class, template)
 
 # Build main page of the blog
-def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST###-->", ul_class="postlist", ignore_empty=True):
+def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST###-->", ul_class="postlist", ignore_empty=True, excerpts_on=False):
     # Function will look for paste_where and replace it with the generated ul_list
     # Generate <ul> with <li> for every post in the posts_sorted
     ul_list = ['<ul class="' + ul_class + '">']
 
     for post in posts_list:
+
+        if excerpts_on:
+            excerpt = '<div class="excerpt">' + post.excerpt + '</div>'
+        else:
+            excerpt = ""
+
         if ignore_empty:
             # Ignore posts with empty content attribute
             if post.content == "":
                 print("Not adding", post.filename, "to the posts folder. It is empty! Write something before publishing. ;)")
                 continue
             else:
-                ul_list.append('<li class="' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span></li>')
+                ul_list.append('<li class="' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span>' + excerpt + '</li>')
         else:
-            ul_list.append('<li class="' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span></li>')
+            ul_list.append('<li class="' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span>' + excerpt + '</li>')
     
     ul_list.append("</ul>")
     
@@ -276,7 +302,7 @@ def parse_config(filename):
 
     return list_of_options
 
-def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp']):
+def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp'], excerpt_type="chars", excerpt_len="500", excerpts_on=False):
     # Call everything
     try:
         fresh_posts = generate_posts(in_path, extension)
@@ -297,6 +323,7 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
         for post in ordered_posts:
             post.get_content(headerseparator=headerseparator, obligatory=obligatory_header, optional=optional_header)
             post.build_pretty_date(date_format="%b %d")
+            post.get_excerpt(len_type=excerpt_type, excerpt_len=excerpt_len)
     except:
         print("Something went wrong with generating content and prettyfying dates. WHY?")
 
@@ -312,7 +339,7 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
         print("Folders could not be built. Check file permissions.")
     
     try:
-        build_index_page(ordered_posts, index_template, ignore_empty=ignore_empty_posts, paste_where=index_paste_where, ul_class=ul_class)
+        build_index_page(ordered_posts, index_template, ignore_empty=ignore_empty_posts, paste_where=index_paste_where, ul_class=ul_class, excerpts_on=excerpts_on)
     except:
         print("Could not build index page. Did you provide a template?")
     
