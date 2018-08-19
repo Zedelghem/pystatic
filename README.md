@@ -109,6 +109,8 @@ python build.py
     title: Hello World
     author: Zedelghem
     timestamp: 2018-03-12 13:30
+    tags: english essay literature
+    excerpt: A test of a manual excerpt with <a href="http://google.com">a random link</a>.
     ---
     ```
 
@@ -117,6 +119,10 @@ python build.py
     'Author' is an option for multi-author blogs. It assigns an author to a particular post if you want it.
 
     'Timestamp' overwrites the date in the filename and assigns time to the post so it can be used to handpick order of posts published on the same day.
+
+    'Tags' is a list of classes that will be added to the \<li> object representing your post on the front page as well as to the \<div> and \<h1> representing your post on the individual post page.
+
+    'Excerpt' sets the manual excerpt for the post, if would like to do so.
 
 3. The script does two main things. First, it generates an unordered list (\<ul>) of all posts and injects it to the template file for index.html. It does so by replacing a placeholder, by default it's '<!--###POSTS_LIST###-->'. Second, for every post it converts its content from Markdown to HTML (using Python markdown library) and creates a file for it using a template file for post. It also does so by replacing a placeholder, '<!--###POST_CONTENT###-->' by default.
 
@@ -177,9 +183,9 @@ There are, of course, tons of options that might be added like import or export 
 
 Okay, so things changed a bit. There was a fantastic response from @alex7217, also I need to implement a bilingual blog for myself, and some new features are coming:
 
-1. Optional excerpts,
+1. ~~Optional excerpts~~ (Done),
 2. Option for pagination,
-3. An optional navigation / tag filtering system,
+3. An optional navigation / ~~tag filtering system~~ (Done),
 4. Some new templates.
 
 All of this will be done with utmost simplicity of use in mind. So worry not - the spirit of pystatic is not lost!
