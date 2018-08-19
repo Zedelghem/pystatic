@@ -59,7 +59,7 @@ class Post (object):
         else:
             self.date = parser.parse(self.filename.split(titleseparator)[0]).strftime(date_format).capitalize()
     
-    def get_content(self, headerseparator="---", obligatory=['title'], optional=['author', 'timestamp', "tags"]):
+    def get_content(self, headerseparator="---", obligatory=['title'], optional=['author', 'timestamp', "tags", "excerpt"]):
         
         # Completing the post list by importing title and content from the files
         ########################################################################
@@ -96,10 +96,15 @@ class Post (object):
         # Check for and assign optional header declarations
         if 'author' in header.keys():
             self.author = header['author']
+
         if 'timestamp' in header.keys():
             self.timestamp = header['timestamp']
+
         if 'tags' in header.keys():
             self.tags = header['tags']
+
+        if 'excerpt' in header.keys():
+            self.excerpt = markdown.markdown(header['excerpt'])
         
         # Delete header from current_post
         del(current_post[0])
@@ -110,22 +115,22 @@ class Post (object):
     # I left an option for sentences as a unit of excerpt_len
     # Not working properly now – doesn't crash but tuned only to fullstops.
     def get_excerpt(self, len_type="chars", excerpt_len="500"):
+        if not hasattr(self, "excerpt"):
+            parsed_content = markdown.markdown(self.content)
 
-        parsed_content = markdown.markdown(self.content)
+            try:
+                length = int(excerpt_len)
+            except:
+                print("Could not change the type of excerpt_len to int")
 
-        try:
-            length = int(excerpt_len)
-        except:
-            print("Could not change the type of excerpt_len to int")
+            if len_type == "chars":
+                excerpt_ready = parsed_content[:length]
+            elif len_type == "words":
+                excerpt_ready = " ".join(parsed_content.split(" ")[:length])
+            elif len_type == "sentences":
+                excerpt_ready = ". ".join(parsed_content.split(". ")[:length])
 
-        if len_type == "chars":
-            excerpt_ready = parsed_content[:length]
-        elif len_type == "words":
-            excerpt_ready = " ".join(parsed_content.split(" ")[:length])
-        elif len_type == "sentences":
-            excerpt_ready = ". ".join(parsed_content.split(". ")[:length])
-
-        self.excerpt = excerpt_ready.rstrip() + "..."
+            self.excerpt = excerpt_ready.rstrip() + "..."
 
 
 # Function to generate post objects for every file of specific extention in a given path
@@ -302,7 +307,7 @@ def parse_config(filename):
 
     return list_of_options
 
-def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp'], excerpt_type="chars", excerpt_len="500", excerpts_on=False):
+def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False):
     # Call everything
     try:
         fresh_posts = generate_posts(in_path, extension)
