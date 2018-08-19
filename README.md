@@ -48,8 +48,7 @@ Folder structure is as follows.
 |-- post.html
 |-- css/
 |--- style.css
-|-- lib/
-|--- scripts.js (empty by default)
+|-- lib/ (empty by default)
 |-- assets/
 |--- whatever additional files you need
 |--- ...
@@ -67,7 +66,6 @@ Folder structure is as follows.
 |--- style.css
 |-- assets/
 |-- lib/
-|--- scripts.js
 ```
 
 ## Quick start
