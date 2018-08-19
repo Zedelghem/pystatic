@@ -122,7 +122,7 @@ python build.py
 
     'Tags' is a list of classes that will be added to the \<li> object representing your post on the front page as well as to the \<div> and \<h1> representing your post on the individual post page.
 
-    'Excerpt' sets the manual excerpt for the post, if would like to do so.
+    'Excerpt' sets the manual excerpt for the post, if would like to do so. However, excerpts need to be turned on in the configuration file to work.
 
 3. The script does two main things. First, it generates an unordered list (\<ul>) of all posts and injects it to the template file for index.html. It does so by replacing a placeholder, by default it's '<!--###POSTS_LIST###-->'. Second, for every post it converts its content from Markdown to HTML (using Python markdown library) and creates a file for it using a template file for post. It also does so by replacing a placeholder, '<!--###POST_CONTENT###-->' by default.
 
@@ -146,7 +146,7 @@ As of version 1.1 (July 23, 2018) pystatic ships with a human-readable configura
 The build_website() function has one positional (required) and eleven keyword arguments.
 
 ```python
-build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp'])
+build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False)
 ```
 Most of them are self explanatory. However, I explain all of them below for clarity.
 
@@ -177,6 +177,12 @@ The two features below were introduced with ease of possible further development
 **obligatory_header** provides a list of header options required by the generator to build post content and thus include the post in the built website. If you really want to always require yourself to include author and timestamp, you might add these two to the list.
 
 **optional_header** provides a list of optional header options. Expanding it will not change anything at this moment. However, deleting one of the options will make it unusable. I would not change anything here for now.
+
+**excerpts_on** sets whether excerpts, both manual and automatic, are on (=True) or off (=False). By default they are off.
+
+**excerpt_type** sets the unit of length of the automatic excerpt. It can be set to characters or words. By default it is set to characters (chars).
+
+**excerpt_len** sets the length of the automatic excerpt in the unit of lenth chosen in *excerpt_type*. It is 500 by default. So the default excerpt is 500 characters long.
 
 ## Roadmap?
 There are, of course, tons of options that might be added like import or export to particular CMS, support for manipulation and creation of templates from the script, reading other than Markdown text-to-HTML interpreters, etc. ~~However, I am rather happy with this version and for now I do not see any need to expand it for my purposes. I will think about extension if I come across a problem that bothers me or if anyone else ever uses pystatic. ;)~~
