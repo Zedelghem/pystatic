@@ -42,6 +42,7 @@ from os import makedirs, listdir, path
 import codecs
 import markdown
 import shutil
+import math
 
 locale.setlocale(locale.LC_ALL, '')
 
@@ -132,7 +133,6 @@ class Post (object):
 
             self.excerpt = excerpt_ready.rstrip() + "..."
 
-
 # Function to generate post objects for every file of specific extention in a given path
 def generate_posts(directory, extension="md"):
     # Loading filenames in the posts directory
@@ -217,38 +217,119 @@ def build_posts_folder(posts_list, template_file, in_path="posts", ignore_empty=
             inject_markdowned_content(post, paste_where, wrapper_class, template)
 
 # Build main page of the blog
-def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST###-->", ul_class="postlist", ignore_empty=True, excerpts_on=False):
+def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST###-->", ul_class="postlist", ignore_empty=True, excerpts_on=False, posts_per_page=0, pages_in_multiple_files=False, readmore="Read more >>"):    
     # Function will look for paste_where and replace it with the generated ul_list
     # Generate <ul> with <li> for every post in the posts_sorted
-    ul_list = ['<ul class="' + ul_class + '">']
+    
+    if posts_per_page == 0:
+        ul_list = ['<ul class="' + ul_class + '">']
 
-    for post in posts_list:
+        for post in posts_list:
 
-        if excerpts_on:
-            excerpt = '<div class="excerpt">' + post.excerpt + '</div>'
-        else:
-            excerpt = ""
-
-        if ignore_empty:
-            # Ignore posts with empty content attribute
-            if post.content == "":
-                print("Not adding", post.filename, "to the posts folder. It is empty! Write something before publishing. ;)")
-                continue
+            if excerpts_on:
+                excerpt = '<div class="excerpt">' +  post.excerpt + '<span class="readmore">' + '<a href="posts/' + post.filename + ".html" + '">' + readmore + '</a>' + '</span>' + '</div>'
             else:
-                ul_list.append('<li class="' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span>' + excerpt + '</li>')
+                excerpt = ""
+
+            if ignore_empty:
+                # Ignore posts with empty content attribute
+                if post.content == "":
+                    print("Not adding", post.filename, "to the posts folder. It is empty! Write something before publishing. ;)")
+                    continue
+                else:
+                    ul_list.append('<li class= "' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span>' + excerpt + '</li>')
+            else:
+                ul_list.append('<li class= "' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span>' + excerpt + '</li>')
+
+        ul_list.append("</ul>")
+
+        # Below: take the .html blueprint in and inject the ul_list in the space provided
+        template = open(template_file)
+        target = template.read().replace(paste_where, "".join(ul_list))
+        template.close()
+        
+        output_file = open("site/index.html", 'w')
+        output_file.write(target)
+        output_file.close()
+
+    elif posts_per_page > 0:
+
+        # Populate pages
+        num_of_pages = math.ceil(len(posts_list) / posts_per_page)
+        pages = [[] for num in range(0, num_of_pages)]
+        current_page_number = 0
+
+        for post in posts_list:
+
+            if excerpts_on:
+                excerpt = '<div class="excerpt">' +  post.excerpt + '<span class="readmore">' + '<a href="posts/' + post.filename + ".html" + '">' + readmore + '</a>' + '</span>' + '</div>'
+            else:
+                excerpt = ""
+
+            if ignore_empty:
+                # Ignore posts with empty content attribute
+                if post.content == "":
+                    print("Not adding", post.filename, "to the posts folder. It is empty! Write something before publishing. ;)")
+                    continue
+                else:
+                    pages[current_page_number].append('<li class= "' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span>' + excerpt + '</li>')
+            else:
+                pages[current_page_number].append('<li class= "' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span>' + excerpt + '</li>')
+            
+            if len(pages[current_page_number]) == posts_per_page:
+                current_page_number += 1
+
+        pages_parsed = []
+        for index, page in enumerate(pages):
+            pages_parsed.append('<ul id="page' + str(index+1) + '" class="' + ul_class + '">' + "".join(page) + "</ul>")
+
+        # Interpret pages as either multiple .html files...
+        if pages_in_multiple_files:
+            # Add navigation between pagefiles
+            pagenav = ['<div id="page_navigation">']
+            for pnum in range(num_of_pages):
+                if pnum == 0:
+                    index_number = ""
+                else:
+                    index_number = str(pnum+1)
+                pagenav.append('<a href="index' + index_number + '.html">' + str(pnum+1) + '</a>')
+            pagenav.append("</div>")
+
+            for index, pagefile in enumerate(pages_parsed):
+                # Below: take the .html blueprint in and inject the list in the space provided
+                template = open(template_file)
+                target = template.read().replace(paste_where, " ".join(pagenav) + pagefile)
+                template.close()
+                
+                if index == 0:
+                    index_number = ""
+                else:
+                    index_number = str(index+1)
+
+                output_file = open("site/index" + index_number + ".html", 'w')
+                output_file.write(target)
+                output_file.close()
+
+        # ...or as multiple <ul>s within one index.html file, for example for the purpose of CSS tabs-based pagination
         else:
-            ul_list.append('<li class="' + post.tags + '"><span class="date">' + post.date + '</span><span class="title"><a href="posts/' + post.filename + ".html" + '">' + post.title + '</a></span>' + excerpt + '</li>')
-    
-    ul_list.append("</ul>")
-    
-    # Below: take the .html blueprint in and inject the ul_list in the space provided
-    template = open(template_file)
-    target = template.read().replace(paste_where, "".join(ul_list))
-    template.close()
-    
-    output_file = open("site/index.html", 'w')
-    output_file.write(target)
-    output_file.close()
+
+            # Add navigation between <ul>s with different ids
+            pagenav = ['<div id="page_navigation">']
+            for pnum in range(num_of_pages):
+                index_number = str(pnum+1)
+                pagenav.append('<a href="#page' + index_number + '">' + str(pnum+1) + '</a>')
+            pagenav.append("</div>")
+
+            template = open(template_file)
+            target = template.read().replace(paste_where, " ".join(pagenav) + "".join(pages_parsed))
+            template.close()
+
+            output_file = open("site/index.html", 'w')
+            output_file.write(target)
+            output_file.close() 
+
+    else:
+        print("Invalid posts_per_page value. Should be an integer >= 0")
 
 def strRepresentsInt(s):
     try: 
@@ -307,7 +388,7 @@ def parse_config(filename):
 
     return list_of_options
 
-def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False):
+def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False):
     # Call everything
     try:
         fresh_posts = generate_posts(in_path, extension)
@@ -344,7 +425,7 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
         print("Folders could not be built. Check file permissions.")
     
     try:
-        build_index_page(ordered_posts, index_template, ignore_empty=ignore_empty_posts, paste_where=index_paste_where, ul_class=ul_class, excerpts_on=excerpts_on)
+        build_index_page(ordered_posts, index_template, ignore_empty=ignore_empty_posts, paste_where=index_paste_where, ul_class=ul_class, excerpts_on=excerpts_on, readmore=readmore, posts_per_page=posts_per_page, pages_in_multiple_files=pages_in_multiple_files)
     except:
         print("Could not build index page. Did you provide a template?")
     
