@@ -373,7 +373,7 @@ def parse_config(filename):
                 elif val == "False":
                     options[key] = False
             except ValueError:
-                prin("Trouble converting a boolean-like string to a boolean value.")
+                print("Trouble converting a boolean-like string to a boolean value.")
         
         if type(val) is not list and strRepresentsInt(val) == True:
             try:
