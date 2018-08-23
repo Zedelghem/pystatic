@@ -144,7 +144,8 @@ As of version 1.1 (July 23, 2018) pystatic ships with a human-readable configura
 The build_website() function has one positional (required) and eleven keyword arguments.
 
 ```python
-build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False)
+build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y"):
+
 ```
 Most of them are self explanatory. However, I explain all of them below for clarity.
 
@@ -182,6 +183,14 @@ The two features below were introduced with ease of possible further development
 
 **excerpt_len** sets the length of the automatic excerpt in the unit of lenth chosen in *excerpt_type*. It is 500 by default. So the default excerpt is 500 characters long.
 
+**readmore** sets the value of the readmore span shown after an excerpt (if the excerpts_on is set True, of course).
+
+**posts_per_page** sets the number of posts per page of the list of posts (front page). If posts_per_page is set to 0, pagination is turned off.
+
+**pages_in_multiple_files** sets whether the pagination on the front page is interpreted as multiple .html files (True) or as multiple \<ul>s within one .html file (False). Note that the value of pages_in_multiple_files matters only when posts_per_page has been set to anything other than 0.
+
+**postlist_date_format** sets the format of the date shown next to the post in the post list on the front page. For all available options see https://docs.python.org/2/library/datetime.html#timedelta-objects.
+
 ## Roadmap?
 There are, of course, tons of options that might be added like import or export to particular CMS, support for manipulation and creation of templates from the script, reading other than Markdown text-to-HTML interpreters, etc. ~~However, I am rather happy with this version and for now I do not see any need to expand it for my purposes. I will think about extension if I come across a problem that bothers me or if anyone else ever uses pystatic. ;)~~
 
@@ -189,8 +198,9 @@ Okay, so things changed a bit. There was a fantastic response from @alex7217, al
 
 1. ~~Optional excerpts~~ (Done),
 2. ~~Option for pagination~~ (Done),
-3. An optional navigation / ~~tag filtering system~~ (Done),
+3. ~~An optional navigation~~ (Partially done: there is an automatic navigation generated for paginaton with pages in separate files) / ~~tag filtering system~~ (Done),
 4. Some new templates.
+5. Option for navigation with stable webpages in manually set order, like "About me", etc.
 
 All of this will be done with utmost simplicity of use in mind. So worry not - the spirit of pystatic is not lost!
 

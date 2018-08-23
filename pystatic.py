@@ -388,7 +388,7 @@ def parse_config(filename):
 
     return list_of_options
 
-def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False):
+def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y"):
     # Call everything
     try:
         fresh_posts = generate_posts(in_path, extension)
@@ -408,7 +408,7 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
     try:
         for post in ordered_posts:
             post.get_content(headerseparator=headerseparator, obligatory=obligatory_header, optional=optional_header)
-            post.build_pretty_date(date_format="%b %d")
+            post.build_pretty_date(date_format=postlist_date_format)
             post.get_excerpt(len_type=excerpt_type, excerpt_len=excerpt_len)
     except:
         print("Something went wrong with generating content and prettyfying dates. WHY?")
