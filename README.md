@@ -34,13 +34,13 @@ build_website("posts")
 
 function with only one variable, path of the folder where you keep your posts, and the script builds your website with two templates, one for the main page and one for the post page. Posts should be written in markdown. You style templates in a .css file. The complete website is saved in the site folder. That's it.
 
-> For the sake of future extensions the build_website function call in the build.py file looks slightly more complicated. It calls another function which reads in the configuration file, easy to understand by humans. So now you do not need to edit even that one line of code yourself. You can head straight to the CONFIG file.
+> For the sake of future extensions the build_website function call in the build.py file looks slightly more complicated. It calls another function which reads in the configuration file, easy to understand by humans. So now you do not need to edit even that one line of code yourself. You can head straight to the pystatic.cfg file.
 
 Folder structure is as follows.
 ```
 |- pystatic.py
 |- build.py
-|- CONFIG
+|- pystatic.cfg
 |- LICENSE
 |-
 |- templates/
@@ -138,7 +138,7 @@ python build.py
     I will think about accounting for it automatically but for now I think it would unnecessarily increase the number of options to keep in mind before running the script. I think it is easy enough to add two dots on your own.
 
 ## For tweakers: configuration file
-As of version 1.1 (July 23, 2018) pystatic ships with a human-readable configuration file. It means you can set all of the options below without handling the code. Just open the CONFIG file in a text editor and follow the instructions.
+As of version 1.1 (July 23, 2018) pystatic ships with a human-readable configuration file. It means you can set all of the options below without handling the code. Just open the pystatic.cfg file in a text editor and follow the instructions.
 
 ## For ultratweakers: detailed structure of the build_website() function
 The build_website() function has one positional (required) and eleven keyword arguments.
