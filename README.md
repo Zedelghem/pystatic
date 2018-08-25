@@ -61,7 +61,7 @@ Folder structure is as follows.
 |- build.py
 |- pystatic.cfg
 |- LICENSE
-|-
+|
 |- templates/
 |-- index.html
 |-- post.html
@@ -71,7 +71,7 @@ Folder structure is as follows.
 |-- assets/
 |--- whatever additional files you need
 |--- ...
-|-
+|
 |- posts/
 |-- 2018-03-12_best_title.md
 |-- ...
