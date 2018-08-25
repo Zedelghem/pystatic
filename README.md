@@ -197,7 +197,7 @@ Okay, so things changed a bit. There was a fantastic response from @alex7217, al
 
 1. ~~Optional excerpts~~ (Done),
 2. ~~Option for pagination~~ (Done),
-3. ~~An optional navigation~~ (Partially done: there is an automatic navigation generated for paginaton with pages in separate files) / ~~tag filtering system~~ (Done),
+3. ~~An optional navigation~~ (Partially done: there is an automatic navigation generated for paginaton with pages in separate files) / ~~post tagging~~ (Done, filtration can be added in CSS),
 4. Some new templates.
 5. Option for navigation with stable webpages in manually set order, like "About me", etc.
 
