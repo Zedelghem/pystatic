@@ -114,15 +114,15 @@ python build.py
 
     Everything above '---' is a header, everything below '---' is post content. Only 'title' is obligatory, the rest can be ommited. 
 
-    'Author' is an option for multi-author blogs. It assigns an author to a particular post if you want it.
+    **'Author'** is an option for multi-author blogs. It assigns an author to a particular post if you want it.
 
-    'Timestamp' overwrites the date in the filename and assigns time to the post so it can be used to handpick order of posts published on the same day.
+    **'Timestamp'** overwrites the date in the filename and assigns time to the post so it can be used to handpick order of posts published on the same day.
 
-    'Tags' is a list of classes that will be added to the \<li> object representing your post on the front page as well as to the \<div> and \<h1> representing your post on the individual post page.
+    **'Tags'** is a list of classes that will be added to the \<li> object representing your post on the front page as well as to the \<div> and \<h1> representing your post on the individual post page.
 
-    'Excerpt' sets the manual excerpt for the post, if would like to do so. However, excerpts need to be turned on in the configuration file to work.
+    **'Excerpt'** sets the manual excerpt for the post, if would like to do so. However, excerpts need to be turned on in the configuration file to work.
 
-3. The script does two main things. First, it generates an unordered list (\<ul>) of all posts and injects it to the template file for index.html. It does so by replacing a placeholder, by default it's '<!--###POSTS_LIST###-->'. Second, for every post it converts its content from Markdown to HTML (using Python markdown library) and creates a file for it using a template file for post. It also does so by replacing a placeholder, '<!--###POST_CONTENT###-->' by default.
+3. The script does two main things. First, it generates an unordered list (\<ul>) of all posts and injects it to the template file for index.html. It does so by replacing a placeholder, by default it's \<!--###POSTS_LIST###-->. Second, for every post it converts its content from Markdown to HTML (using Python markdown library) and creates a file for it using a template file for post. It also does so by replacing a placeholder, \<!--###POST_CONTENT###--> by default.
 
 4. Remember how the file tree is built – posts are in a folder at the same level as the CSS and assets folder. In the template you need to account for the need to get one level up to get to the .css file. For example, to refer to a style.css within your template file or a post file you need to use the following path.
     ```
