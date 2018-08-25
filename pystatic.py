@@ -191,15 +191,15 @@ def build_site_folders():
     makedirs("site/css", exist_ok=True)
     makedirs("site/lib", exist_ok=True)
 
-def inject_markdowned_content(post_object, paste_where, wrapper_class, template):
+def inject_markdowned_content(post_object, paste_where, paste_where_title, wrapper_class, template):    
     content_html = markdown.markdown(post_object.content)
-    target = template.replace(paste_where, '<h1 class="post_title">' + post_object.title + '</h1> \n <div class="' + wrapper_class + " " + post_object.tags + '">' + content_html + '</div>')
+    target = template.replace(paste_where, '<h1 class="post_title">' + post_object.title + '</h1> \n <div class="' + wrapper_class + " " + post_object.tags + '">' + content_html + '</div>').replace(paste_where_title, post_object.title)
 
     output_file = codecs.open("site/posts/" + post_object.filename + ".html", "w", encoding="utf-8", errors="xmlcharrefreplace")
     output_file.write(target)
     output_file.close()
 
-def build_posts_folder(posts_list, template_file, in_path="posts", ignore_empty=True, extension="md", paste_where="<!--###POST_CONTENT###-->", wrapper_class="postcontent"):
+def build_posts_folder(posts_list, template_file, in_path="posts", ignore_empty=True, extension="md", paste_where="<!--###POST_CONTENT###-->", paste_where_title="<!--###POSTPAGE_TITLE###-->", wrapper_class="postcontent"):
     
     # Load template file
     template_f = open(template_file)
@@ -210,11 +210,11 @@ def build_posts_folder(posts_list, template_file, in_path="posts", ignore_empty=
         
         if ignore_empty:
             if post.content != "":
-                inject_markdowned_content(post, paste_where, wrapper_class, template)
+                inject_markdowned_content(post, paste_where, paste_where_title, wrapper_class, template)
             else:
                 print("Not adding", post.filename, "to the post index. It is empty! Write something first.")
         else:
-            inject_markdowned_content(post, paste_where, wrapper_class, template)
+            inject_markdowned_content(post, paste_where, paste_where_title, wrapper_class, template)
 
 # Build main page of the blog
 def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST###-->", ul_class="postlist", ignore_empty=True, excerpts_on=False, posts_per_page=0, pages_in_multiple_files=False, readmore="Read more >>"):    
@@ -388,7 +388,7 @@ def parse_config(filename):
 
     return list_of_options
 
-def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y"):
+def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", title_paste_where="<!--###POSTPAGE_TITLE###-->",ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y"):
     # Call everything
     try:
         fresh_posts = generate_posts(in_path, extension)
@@ -430,7 +430,7 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
         print("Could not build index page. Did you provide a template?")
     
     try:
-        build_posts_folder(ordered_posts, post_template, ignore_empty=ignore_empty_posts, in_path=in_path, extension=extension, paste_where=post_paste_where, wrapper_class=post_wrapper)
+        build_posts_folder(ordered_posts, post_template, ignore_empty=ignore_empty_posts, in_path=in_path, extension=extension, paste_where=post_paste_where, paste_where_title=title_paste_where, wrapper_class=post_wrapper)
     except:
         print("Could not build post pages. Did you provide a template?")
     

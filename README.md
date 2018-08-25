@@ -121,7 +121,7 @@ Folder structure is as follows.
 
     **'Excerpt'** sets the manual excerpt for the post, if would like to do so. However, excerpts need to be turned on in the configuration file to work.
 
-3. The script does two main things. First, it generates an unordered list (\<ul>) of all posts and injects it to the template file for index.html. It does so by replacing a placeholder, by default it's \<!--###POSTS_LIST###-->. Second, for every post it converts its content from Markdown to HTML (using Python markdown library) and creates a file for it using a template file for post. It also does so by replacing a placeholder, \<!--###POST_CONTENT###--> by default.
+3. The script does two main things. First, it generates an unordered list (\<ul>) of all posts and injects it to the template file for index.html. It does so by replacing a placeholder, by default it's \<!--###POSTS_LIST###-->. Second, for every post it converts its content from Markdown to HTML (using Python markdown library) and creates a file for it using a template file for post. It also does so by replacing a placeholder, \<!--###POST_CONTENT###--> by default. The title for the post page is automatically set to the title of the post, again by replacing a placeholder, \<!--###POSTPAGE_TITLE###--> by default.
 
 4. Remember how the file tree is built – posts are in a folder at the same level as the CSS and assets folder. In the template you need to account for the need to get one level up to get to the .css file. For example, to refer to a style.css within your template file or a post file you need to use the following path.
     ```
@@ -143,7 +143,7 @@ As of version 1.1 (July 23, 2018) pystatic ships with a human-readable configura
 The build_website() function has one positional (required) and eleven keyword arguments.
 
 ```python
-build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y"):
+build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", title_paste_where="<!--###POSTPAGE_TITLE###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y"):
 
 ```
 Most of them are self explanatory. However, I explain all of them below for clarity.
@@ -163,6 +163,8 @@ Most of them are self explanatory. However, I explain all of them below for clar
 **index_paste_where** sets the placeholder for the \<ul> with posts list to be injected into the index page template.
 
 **post_paste_where** sets the placeholder for the post content to be injected into the post template file.
+
+**title_paste_where** sets the placeholder for the <title> of the post .html page.
 
 **ul_class** sets the class of the \<ul> holding the list of your posts on the main website.
 
