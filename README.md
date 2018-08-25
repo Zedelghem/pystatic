@@ -17,6 +17,25 @@ Dead simple static site generator. To build a website you need only one line of 
 
 ![Default template thumbnail](https://raw.githubusercontent.com/Zedelghem/pystatic/master/templates/assets/template_thumb.png)
 
+## Quick start
+Install and run pystatic in three simple steps:
+
+1. Clone, fork or otherwise install this repo from GitHub, i.e.:
+
+```
+git clone https://github.com/Zedelghem/pystatic.git
+```
+
+2. Navigate to the location where the pystatic build.py file was installed
+```
+cd /path/to/pystatic (where build.py lives)
+```
+
+3. Run the build script from the command line:
+```
+python build.py
+```
+
 ## Installation note
 You might miss dateutil or markdown in your Python configuration. They are both available through pip.
 ```python
@@ -66,26 +85,6 @@ Folder structure is as follows.
 |--- style.css
 |-- assets/
 |-- lib/
-```
-
-## Quick start
-
-Install and run pystatic in three simple steps:
-
-1. Clone, fork or otherwise install this repo from GitHub, i.e.:
-
-```
-git clone https://github.com/Zedelghem/pystatic.git
-```
-
-2. Navigate to the location where the pystatic build.py file was installed
-```
-cd /path/to/pystatic (where build.py lives)
-```
-
-3. Run the build script from the command line:
-```
-python build.py
 ```
 
 ## Main information (enough to get things done)
