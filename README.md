@@ -172,9 +172,7 @@ Most of them are self explanatory. However, I explain all of them below for clar
 
 **headerseparator**, obviously, sets the string that separates header from the content of the post. If for some other reasons you need the first "---" of your file to be left in the post content, change this feature.
 
-The two features below were introduced with ease of possible further development in mind. There is no much use in tweaking them at the moment.
-
-**obligatory_header** provides a list of header options required by the generator to build post content and thus include the post in the built website. If you really want to always require yourself to include author and timestamp, you might add these two to the list.
+**obligatory_header** provides a list of header options required by the generator to build post content and thus include the post in the built website. For now, the only required parameter is title. If you really want to always require yourself or your authors to include other things, you might add them to the list.
 
 **optional_header** provides a list of optional header options. Expanding it will not change anything at this moment. However, deleting one of the options will make it unusable. I would not change anything here for now.
 
