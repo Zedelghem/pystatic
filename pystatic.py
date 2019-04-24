@@ -97,6 +97,8 @@ class Post (object):
         # Check for and assign optional header declarations
         if 'author' in header.keys():
             self.author = header['author']
+        else:
+            self.author = None
 
         if 'timestamp' in header.keys():
             self.timestamp = header['timestamp']
@@ -193,7 +195,14 @@ def build_site_folders():
 
 def inject_markdowned_content(post_object, paste_where, paste_where_title, wrapper_class, template):    
     content_html = markdown.markdown(post_object.content)
-    target = template.replace(paste_where, '<h1 class="post_title">' + post_object.title + '</h1> \n <div class="' + wrapper_class + " " + post_object.tags + '">' + content_html + '</div>').replace(paste_where_title, post_object.title)
+
+    # Checking for Author and adding information
+    if post_object.author is not None:
+        post_author_par = '\n <p class="post_author">' + post_object.author + '</p>'
+    else:
+        post_author_par = ""
+
+    target = template.replace(paste_where, '<h1 class="post_title">' + post_object.title + '</h1>' + post_author_par + '\n <section class="' + wrapper_class + " " + post_object.tags + '">' + content_html + '</section>').replace(paste_where_title, post_object.title)
 
     output_file = codecs.open("site/posts/" + post_object.filename + ".html", "w", encoding="utf-8", errors="xmlcharrefreplace")
     output_file.write(target)

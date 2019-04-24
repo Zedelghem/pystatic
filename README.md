@@ -57,26 +57,25 @@ function with only one variable, path of the folder where you keep your posts, a
 
 Folder structure is as follows.
 ```
-|- pystatic.py
-|- build.py
-|- pystatic.cfg
-|- LICENSE
+|- build.py     (function call file, run this to build)
+|- pystatic.py  (main script library file)
+|- pystatic.cfg (the human readable configuration file)
+|- LICENSE      (GPL 3.0)
 |
-|- templates/
+|- posts/       (this is where you keep your markdown post files)
+|-- 2018-03-12_best_title.md
+|-- ...
+|
+|- templates/   (this is where you store the template files to generate website from)
 |-- index.html
 |-- post.html
 |-- css/
 |--- style.css
-|-- lib/ (empty by default)
+|-- lib/        (empty by default)
 |-- assets/
-|--- whatever additional files you need
-|--- ...
+|--- ...        (whatever additional files you need)
 |
-|- posts/
-|-- 2018-03-12_best_title.md
-|-- ...
-|
-|- site/
+|- site/        (this is the generated website)
 |-- index.html
 |-- posts/
 |--- 2018-03-12_best_title.html
@@ -111,24 +110,24 @@ Folder structure is as follows.
     ---
     ```
 
-    Everything above '---' is a header, everything below '---' is post content. Only 'title' is obligatory, the rest can be ommited. 
+    Everything above '---' is a header, everything below '---' is post content. Only 'title' is obligatory, the rest can be ommited. The order of the options does not matter to the script.
 
     **'Author'** is an option for multi-author blogs. It assigns an author to a particular post if you want it.
 
     **'Timestamp'** overwrites the date in the filename and assigns time to the post so it can be used to handpick order of posts published on the same day.
 
-    **'Tags'** is a list of classes that will be added to the \<li> object representing your post on the front page as well as to the \<div> and \<h1> representing your post on the individual post page.
+    **'Tags'** is a list of classes that will be added to the \<li> object representing your post on the front page as well as to the \<section> and \<h1> representing your post on the individual post page.
 
     **'Excerpt'** sets the manual excerpt for the post, if would like to do so. However, excerpts need to be turned on in the configuration file to work.
 
 3. The script does two main things. First, it generates an unordered list (\<ul>) of all posts and injects it to the template file for index.html. It does so by replacing a placeholder, by default it's \<!--###POSTS_LIST###-->. Second, for every post it converts its content from Markdown to HTML (using Python markdown library) and creates a file for it using a template file for post. It also does so by replacing a placeholder, \<!--###POST_CONTENT###--> by default. The title for the post page is automatically set to the title of the post, again by replacing a placeholder, \<!--###POSTPAGE_TITLE###--> by default.
 
-4. Remember how the file tree is built – posts are in a folder at the same level as the CSS and assets folder. In the template you need to account for the need to get one level up to get to the .css file. For example, to refer to a style.css within your template file or a post file you need to use the following path.
+4. Remember how the file tree is built – the posts folder is at the same level as the CSS, assets and the lib folder. In the template you need to account for the need to get one level up to get to the .css file. For example, to refer to a style.css within your template file or a post file you need to use the following path.
     ```
     ../css/style.css
     ```
 
-    Same applies to linking to scripts, images, etc. either from the template file or the post. So paths would look something like the following.
+    The same principle applies to linking to scripts, images, etc. either from the template file or the post. So paths would look something like the following.
     ```
     ../assets/image01.jpeg
     ../lib/random_script.js
@@ -168,7 +167,7 @@ Most of them are self explanatory. However, I explain all of them below for clar
 
 **ul_class** sets the class of the \<ul> holding the list of your posts on the main website.
 
-**post_wrapper** sets the class of the \<div> where the content of your post is stored in the individual post's .html file.
+**post_wrapper** sets the class of the \<section> where the content of your post is stored in the individual post's .html file.
 
 **headerseparator**, obviously, sets the string that separates header from the content of the post. If for some other reasons you need the first "---" of your file to be left in the post content, change this feature.
 
@@ -198,8 +197,9 @@ Okay, so things changed a bit. There was a fantastic response from @alex7217, al
 1. ~~Optional excerpts~~ (Done),
 2. ~~Option for pagination~~ (Done),
 3. ~~An optional navigation~~ (Partially done: there is an automatic navigation generated for paginaton with pages in separate files) / ~~post tagging~~ (Done, filtration can be added in CSS),
-4. Some new templates.
+4. Some new templates. (In progress: I am currently preparing the Tufte CSS-based default template)
 5. Option for navigation with stable webpages in manually set order, like "About me", etc.
+6. Convention for sidenotes inspired by Tufte CSS (in progress)
 
 All of this will be done with utmost simplicity of use in mind. So worry not - the spirit of pystatic is not lost!
 
@@ -209,7 +209,7 @@ Give pystatic a try and let me know what you think!
 
 ## License
 It is GNU GPL 3.0. In other words, do whatever you wish but
-1. Mention me and the licensce explicitly.
+1. Mention me and the license explicitly.
 2. List changes you made to the code.
 3. Make the source public.
 4. Licence your code with GNU GPL 3.0 as well.
