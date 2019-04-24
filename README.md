@@ -43,6 +43,8 @@ pip install python-dateutil
 pip install markdown
 ```
 
+When installing markdown, make sure you use version 3.1 if you intend to use footnotes in your posts. Otherwise there is the risk the extension will not load.
+
 ## Description
 There are multiple Python-based static site generators but I wanted something extremely simple, even primitive; something you could use knowing zero Python and perhaps never even having to tweak options. A tool for everyone not willing to struggle with servers or learn a CMS just to write stuff. Lo and behold, here comes pystatic.
 

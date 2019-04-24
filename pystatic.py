@@ -105,6 +105,8 @@ class Post (object):
 
         if 'tags' in header.keys():
             self.tags = header['tags']
+        else:
+            self.tags = ""
 
         if 'excerpt' in header.keys():
             self.excerpt = markdown.markdown(header['excerpt'])
@@ -193,8 +195,12 @@ def build_site_folders():
     makedirs("site/css", exist_ok=True)
     makedirs("site/lib", exist_ok=True)
 
-def inject_markdowned_content(post_object, paste_where, paste_where_title, wrapper_class, template):    
-    content_html = markdown.markdown(post_object.content)
+def inject_markdowned_content(post_object, paste_where, paste_where_title, wrapper_class, template):
+    try:
+        # Trying to use markdown library with the footnotes extension    
+        content_html = markdown.markdown(post_object.content, extensions=['footnotes'])
+    except:
+        content_html = markdown.markdown(post_object.content)
 
     # Checking for Author and adding information
     if post_object.author is not None:
@@ -229,17 +235,14 @@ def build_posts_folder(posts_list, template_file, in_path="posts", ignore_empty=
 def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST###-->", ul_class="postlist", ignore_empty=True, excerpts_on=False, posts_per_page=0, pages_in_multiple_files=False, readmore="Read more >>"):    
     # Function will look for paste_where and replace it with the generated ul_list
     # Generate <ul> with <li> for every post in the posts_sorted
-    
     if posts_per_page == 0:
         ul_list = ['<ul class="' + ul_class + '">']
-
         for post in posts_list:
 
             if excerpts_on:
                 excerpt = '<div class="excerpt">' +  post.excerpt + '<span class="readmore">' + '<a href="posts/' + post.filename + ".html" + '">' + readmore + '</a>' + '</span>' + '</div>'
             else:
                 excerpt = ""
-
             if ignore_empty:
                 # Ignore posts with empty content attribute
                 if post.content == "":
