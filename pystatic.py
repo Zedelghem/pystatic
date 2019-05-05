@@ -188,14 +188,21 @@ def copytree(src, dst, symlinks=False, ignore=None):
         else:
             shutil.copy2(s, d)
 
-def build_site_folders():
+def build_site_folders(outFolder):
+    makedirs(outFolder, exist_ok=True)
+    makedirs(outFolder + "/posts", exist_ok=True)
+    makedirs(outFolder + "/assets", exist_ok=True)
+    makedirs(outFolder + "/css", exist_ok=True)
+    makedirs(outFolder + "/lib", exist_ok=True)
+    """
     makedirs("site", exist_ok=True)
     makedirs("site/posts", exist_ok=True)
     makedirs("site/assets", exist_ok=True)
     makedirs("site/css", exist_ok=True)
     makedirs("site/lib", exist_ok=True)
+    """
 
-def inject_markdowned_content(post_object, paste_where, paste_where_title, wrapper_class, template):
+def inject_markdowned_content(post_object, paste_where, paste_where_title, wrapper_class, template, out_folder="site"):
     try:
         # Trying to use markdown library with the footnotes extension    
         content_html = markdown.markdown(post_object.content, extensions=['footnotes'])
@@ -210,11 +217,11 @@ def inject_markdowned_content(post_object, paste_where, paste_where_title, wrapp
 
     target = template.replace(paste_where, '<h1 class="post_title">' + post_object.title + '</h1>' + post_author_par + '\n <section class="' + wrapper_class + " " + post_object.tags + '">' + content_html + '</section>').replace(paste_where_title, post_object.title)
 
-    output_file = codecs.open("site/posts/" + post_object.filename + ".html", "w", encoding="utf-8", errors="xmlcharrefreplace")
+    output_file = codecs.open(out_folder + "/posts/" + post_object.filename + ".html", "w", encoding="utf-8", errors="xmlcharrefreplace")
     output_file.write(target)
     output_file.close()
 
-def build_posts_folder(posts_list, template_file, in_path="posts", ignore_empty=True, extension="md", paste_where="<!--###POST_CONTENT###-->", paste_where_title="<!--###POSTPAGE_TITLE###-->", wrapper_class="postcontent"):
+def build_posts_folder(posts_list, template_file, out_folder_path="site", in_path="posts", ignore_empty=True, extension="md", paste_where="<!--###POST_CONTENT###-->", paste_where_title="<!--###POSTPAGE_TITLE###-->", wrapper_class="postcontent"):
     
     # Load template file
     template_f = open(template_file)
@@ -225,14 +232,14 @@ def build_posts_folder(posts_list, template_file, in_path="posts", ignore_empty=
         
         if ignore_empty:
             if post.content != "":
-                inject_markdowned_content(post, paste_where, paste_where_title, wrapper_class, template)
+                inject_markdowned_content(post, paste_where, paste_where_title, wrapper_class, template, out_folder=out_folder_path)
             else:
                 print("Not adding", post.filename, "to the post index. It is empty! Write something first.")
         else:
             inject_markdowned_content(post, paste_where, paste_where_title, wrapper_class, template)
 
 # Build main page of the blog
-def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST###-->", ul_class="postlist", ignore_empty=True, excerpts_on=False, posts_per_page=0, pages_in_multiple_files=False, readmore="Read more >>"):    
+def build_index_page(posts_list, template_file, outFolder="site", paste_where="<!--###POSTS_LIST###-->", ul_class="postlist", ignore_empty=True, excerpts_on=False, posts_per_page=0, pages_in_multiple_files=False, readmore="Read more >>"):    
     # Function will look for paste_where and replace it with the generated ul_list
     # Generate <ul> with <li> for every post in the posts_sorted
     if posts_per_page == 0:
@@ -260,7 +267,7 @@ def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST##
         target = template.read().replace(paste_where, "".join(ul_list))
         template.close()
         
-        output_file = open("site/index.html", 'w')
+        output_file = open(outFolder + "/index.html", 'w')
         output_file.write(target)
         output_file.close()
 
@@ -318,7 +325,7 @@ def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST##
                 else:
                     index_number = str(index+1)
 
-                output_file = open("site/index" + index_number + ".html", 'w')
+                output_file = open(outFolder + "/index" + index_number + ".html", 'w')
                 output_file.write(target)
                 output_file.close()
 
@@ -336,7 +343,7 @@ def build_index_page(posts_list, template_file, paste_where="<!--###POSTS_LIST##
             target = template.read().replace(paste_where, " ".join(pagenav) + "".join(pages_parsed))
             template.close()
 
-            output_file = open("site/index.html", 'w')
+            output_file = open(outFolder + "/index.html", 'w')
             output_file.write(target)
             output_file.close() 
 
@@ -400,7 +407,7 @@ def parse_config(filename):
 
     return list_of_options
 
-def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", title_paste_where="<!--###POSTPAGE_TITLE###-->",ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y"):
+def build_website(in_path, out_path="site", ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", title_paste_where="<!--###POSTPAGE_TITLE###-->",ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, blurb_is_manual_excerpt=True, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y"):
     # Call everything
     try:
         fresh_posts = generate_posts(in_path, extension)
@@ -432,32 +439,32 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
         print("Could not delete previous site folder. Check file permissions for the script.")
     
     try:
-        build_site_folders()
+        build_site_folders(out_path)
     except:
         print("Folders could not be built. Check file permissions.")
     
     try:
-        build_index_page(ordered_posts, index_template, ignore_empty=ignore_empty_posts, paste_where=index_paste_where, ul_class=ul_class, excerpts_on=excerpts_on, readmore=readmore, posts_per_page=posts_per_page, pages_in_multiple_files=pages_in_multiple_files)
+        build_index_page(ordered_posts, index_template,outFolder=out_path, ignore_empty=ignore_empty_posts, paste_where=index_paste_where, ul_class=ul_class, excerpts_on=excerpts_on, readmore=readmore, posts_per_page=posts_per_page, pages_in_multiple_files=pages_in_multiple_files)
     except:
         print("Could not build index page. Did you provide a template?")
     
     try:
-        build_posts_folder(ordered_posts, post_template, ignore_empty=ignore_empty_posts, in_path=in_path, extension=extension, paste_where=post_paste_where, paste_where_title=title_paste_where, wrapper_class=post_wrapper)
+        build_posts_folder(ordered_posts, post_template, out_folder_path=out_path, ignore_empty=ignore_empty_posts, in_path=in_path, extension=extension, paste_where=post_paste_where, paste_where_title=title_paste_where, wrapper_class=post_wrapper)
     except:
         print("Could not build post pages. Did you provide a template?")
     
     # Copy all css, assets and lib
     try:
-        copytree(css_and_assets_path + "/css", "site/css")
+        copytree(css_and_assets_path + "/css", out_path + "/css")
     except:
         print("Tried to copy contents of", css_and_assets_path, "/css folder but the folder does not exist! Make one, even empty!")
     
     try:
-        copytree(css_and_assets_path + "/assets", "site/assets")
+        copytree(css_and_assets_path + "/assets", out_path + "/assets")
     except:
         print("Tried to copy contents of", css_and_assets_path, "/assets folder but the folder does not exist! Make one, even empty!")
     
     try:
-        copytree(css_and_assets_path + "/lib", "site/lib")
+        copytree(css_and_assets_path + "/lib", out_path + "/lib")
     except:
         print("Tried to copy contents of", css_and_assets_path, "/lib folder but the folder does not exist! Make one, even empty!")
