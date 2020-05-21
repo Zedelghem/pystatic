@@ -37,10 +37,11 @@ python build.py
 ```
 
 ## Installation note
-You might miss dateutil or markdown in your Python configuration. They are both available through pip.
+You might miss dateutil, rfeed or markdown in your Python configuration. They are all available through pip.
 ```python
 pip install python-dateutil
 pip install markdown
+pip install rfeed
 ```
 
 When installing markdown, make sure you use version 3.1 if you intend to use footnotes in your posts. Otherwise there is the risk the extension will not load.
@@ -141,13 +142,13 @@ Folder structure is as follows.
 As of version 1.1 (July 23, 2018) pystatic ships with a human-readable configuration file. It means you can set all of the options below without handling the code. Just open the pystatic.cfg file in a text editor and follow the instructions.
 
 ## For ultratweakers: detailed structure of the build_website() function
-The build_website() function has one positional (required) and eleven keyword arguments.
+The build_website() function has one positional (required) and ~~eleven~~ multiple keyword arguments, all of which can be found along with explanation in the configuration file.
 
 ```python
-build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", title_paste_where="<!--###POSTPAGE_TITLE###-->", ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y"):
+build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", title_paste_where="<!--###POSTPAGE_TITLE###-->",ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y", rss_feed_on=True, rss_feed_url="rss", blurb_is_manual_excerpt=False, rss_max_posts_number=10, blog_domain="", rss_feed_description='', rss_feed_title="My blog's RSS feed")
 
 ```
-Most of them are self explanatory. However, I explain all of them below for clarity.
+Most of them are self explanatory. However, I explain some of them below for clarity.
 
 **in_path** is the path of the folder with posts files. 
 
@@ -202,6 +203,7 @@ Okay, so things changed a bit. There was a fantastic response from @alex7217, al
 4. Some new templates. (In progress: I am currently preparing the Tufte CSS-based default template)
 5. Option for navigation with stable webpages in manually set order, like "About me", etc.
 6. Convention for sidenotes inspired by Tufte CSS (in progress)
+7. ~~Add RSS feed, proposed by Trav/Treasuretron~~ (Done)
 
 All of this will be done with utmost simplicity of use in mind. So worry not - the spirit of pystatic is not lost!
 
