@@ -204,6 +204,7 @@ Okay, so things changed a bit. There was a fantastic response from @alex7217, al
 5. Option for navigation with stable webpages in manually set order, like "About me", etc.
 6. Convention for sidenotes inspired by Tufte CSS (in progress)
 7. ~~Add RSS feed, proposed by Trav/Treasuretron~~ (Done)
+8. Add pystatic as a package to PyPI so it can be installed through pip
 
 All of this will be done with utmost simplicity of use in mind. So worry not - the spirit of pystatic is not lost!
 
