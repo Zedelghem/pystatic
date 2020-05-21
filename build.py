@@ -35,9 +35,9 @@
 ###                          Licensed under GNU GPL 3.0                        ###
 ###                          --------------------------                        ###
 ###                                                                            ###
-###     For easy configuration head straight to the CONFIG file in the main    ###
-###     directory. Make any changes in this file only if you know well what    ###
-###     you are doing.                                                         ###
+###     For easy configuration, head straight to the pystatic.cfg file in the  ###
+###     main directory. Make any changes to this file only if you know well    ###
+###     what you are doing.                                                    ###
 ###                                                                            ###
 ##################################################################################
 ##################################################################################

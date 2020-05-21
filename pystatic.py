@@ -43,6 +43,8 @@ import codecs
 import markdown
 import shutil
 import math
+import rfeed
+import datetime
 
 locale.setlocale(locale.LC_ALL, '')
 
@@ -58,7 +60,9 @@ class Post (object):
             self.date = parser.parse(self.timestamp.split(" ")[0].split(titleseparator)[0]).strftime(date_format).capitalize()
             self.time = self.timestamp.split(" ")[1]
         else:
-            self.date = parser.parse(self.filename.split(titleseparator)[0]).strftime(date_format).capitalize()
+            # Useful to generate RSS items
+            self.original_ugly_date = parser.parse(self.filename.split(titleseparator)[0])
+            self.date = self.original_ugly_date.strftime(date_format).capitalize()
     
     def get_content(self, headerseparator="---", obligatory=['title'], optional=['author', 'timestamp', "tags", "excerpt"]):
         
@@ -136,6 +140,10 @@ class Post (object):
                 excerpt_ready = ". ".join(parsed_content.split(". ")[:length])
 
             self.excerpt = excerpt_ready.rstrip() + "..."
+    
+    # Function to generate an RSS Item object for rfeed to generate the RSS Feed
+    def make_rss_item(self):
+        pass
 
 # Function to generate post objects for every file of specific extention in a given path
 def generate_posts(directory, extension="md"):
@@ -400,7 +408,7 @@ def parse_config(filename):
 
     return list_of_options
 
-def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", title_paste_where="<!--###POSTPAGE_TITLE###-->",ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y"):
+def build_website(in_path, ignore_empty_posts=True, index_template="templates/index.html", post_template="templates/post.html", css_and_assets_path="templates", extension="md", index_paste_where="<!--###POSTS_LIST###-->", post_paste_where="<!--###POST_CONTENT###-->", title_paste_where="<!--###POSTPAGE_TITLE###-->",ul_class="postlist", post_wrapper="postcontent", headerseparator="---", obligatory_header=['title'], optional_header=['author', 'timestamp', 'tags', 'excerpt'], excerpt_type="chars", excerpt_len="500", excerpts_on=False, readmore="Read more >>", posts_per_page=0, pages_in_multiple_files=False, postlist_date_format="%d %b '%y", rss_feed_on=True, rss_feed_url="rss", blurb_is_manual_excerpt=False, rss_max_posts_number=10, blog_domain="", rss_feed_description='', rss_feed_title="My blog's RSS feed"):
     # Call everything
     try:
         fresh_posts = generate_posts(in_path, extension)
@@ -445,6 +453,40 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
         build_posts_folder(ordered_posts, post_template, ignore_empty=ignore_empty_posts, in_path=in_path, extension=extension, paste_where=post_paste_where, paste_where_title=title_paste_where, wrapper_class=post_wrapper)
     except:
         print("Could not build post pages. Did you provide a template?")
+
+    try:
+        # Build RSS Feed
+        if rss_feed_on == True:
+
+            # Loop to make items for the rfeed feed object
+            rss_item_list = []
+            last_post_index = min(rss_max_posts_number, len(ordered_posts)-1)
+            
+            for post in ordered_posts[0:last_post_index]:
+                rss_item_list.append(rfeed.Item(
+                    title=post.title,
+                    link=blog_domain + "/posts/" + post.filename + ".html",
+                    description=post.excerpt,
+                    author=post.author,
+                    guid=rfeed.Guid(blog_domain + "/posts/" + post.filename + ".html"),
+                    pubDate=post.original_ugly_date
+                ))
+            
+            rss_feed = rfeed.Feed(
+                title = rss_feed_title,
+                link = blog_domain + "/" + rss_feed_url,
+                description = rss_feed_description,
+                language = locale.getlocale()[0],
+                lastBuildDate = datetime.datetime.now(),
+                items=rss_item_list
+            )
+
+            # Writing the RSS feed to a file at the specified location
+            with open("site/" + rss_feed_url, 'w+') as rss_target:
+                rss_target.write(rss_feed.rss())
+
+    except:
+        print("Could not generate the RSS feed or decide whether it should be generated at all")
     
     # Copy all css, assets and lib
     try:
