@@ -95,8 +95,9 @@ class Post (object):
         # If title was not set
         try:
             self.title = header['title']
-        except:
+        except Exception as e:
             print("You need to set title in the header of the post", self.filename, "!")
+            print(str(e))
         
         # Check for and assign optional header declarations
         if 'author' in header.keys():
@@ -129,8 +130,9 @@ class Post (object):
 
             try:
                 length = int(excerpt_len)
-            except:
+            except Exception as e:
                 print("Could not change the type of excerpt_len to int")
+                print(str(e))
 
             if len_type == "chars":
                 excerpt_ready = parsed_content[:length]
@@ -167,7 +169,8 @@ def filter_bad_dates(posts_list, titleseparator="_", numberseparator="-"):
         try:
             for num in datecheck:
                 int(num)
-        except:
+        except Exception as e:
+            print(str(e))
             to_ignore.append(index)
             continue
         
@@ -207,7 +210,8 @@ def inject_markdowned_content(post_object, paste_where, paste_where_title, wrapp
     try:
         # Trying to use markdown library with the footnotes extension    
         content_html = markdown.markdown(post_object.content, extensions=['footnotes'])
-    except:
+    except Exception as e:
+        print(str(e))
         content_html = markdown.markdown(post_object.content)
 
     # Checking for Author and adding information
@@ -412,47 +416,55 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
     # Call everything
     try:
         fresh_posts = generate_posts(in_path, extension)
-    except:
+    except Exception as e:
         print("Could not generate posts. Did you provide correct path to the post folder?")
+        print(str(e))
     
     try:
         filtered_posts = filter_bad_dates(fresh_posts)
-    except:
+    except Exception as e:
         print("Could not filter posts. Dunno why.")
+        print(str(e))
     
     try:
         ordered_posts = order(filtered_posts)
-    except:
+    except Exception as e:
         print("Could not order posts. It's impossible.")
+        print(str(e))
     
     try:
         for post in ordered_posts:
             post.get_content(headerseparator=headerseparator, obligatory=obligatory_header, optional=optional_header)
             post.build_pretty_date(date_format=postlist_date_format)
             post.get_excerpt(len_type=excerpt_type, excerpt_len=excerpt_len)
-    except:
+    except Exception as e:
         print("Something went wrong with generating content and prettyfying dates. WHY?")
+        print(str(e))
 
     # Delete target folder so it can be rebuilt without conflicts
     try:
         shutil.rmtree("site", ignore_errors=True)
-    except:
+    except Exception as e:
         print("Could not delete previous site folder. Check file permissions for the script.")
+        print(str(e))
     
     try:
         build_site_folders()
-    except:
+    except Exception as e:
         print("Folders could not be built. Check file permissions.")
+        print(str(e))
     
     try:
         build_index_page(ordered_posts, index_template, ignore_empty=ignore_empty_posts, paste_where=index_paste_where, ul_class=ul_class, excerpts_on=excerpts_on, readmore=readmore, posts_per_page=posts_per_page, pages_in_multiple_files=pages_in_multiple_files)
-    except:
+    except Exception as e:
         print("Could not build index page. Did you provide a template?")
+        print(str(e))
     
     try:
         build_posts_folder(ordered_posts, post_template, ignore_empty=ignore_empty_posts, in_path=in_path, extension=extension, paste_where=post_paste_where, paste_where_title=title_paste_where, wrapper_class=post_wrapper)
-    except:
+    except Exception as e:
         print("Could not build post pages. Did you provide a template?")
+        print(str(e))
 
     try:
         # Build RSS Feed
@@ -485,21 +497,25 @@ def build_website(in_path, ignore_empty_posts=True, index_template="templates/in
             with open("site/" + rss_feed_url, 'w+') as rss_target:
                 rss_target.write(rss_feed.rss())
 
-    except:
+    except Exception as e:
         print("Could not generate the RSS feed or decide whether it should be generated at all")
+        print(str(e))
     
     # Copy all css, assets and lib
     try:
         copytree(css_and_assets_path + "/css", "site/css")
-    except:
+    except Exception as e:
         print("Tried to copy contents of", css_and_assets_path, "/css folder but the folder does not exist! Make one, even empty!")
+        print(str(e))
     
     try:
         copytree(css_and_assets_path + "/assets", "site/assets")
-    except:
+    except Exception as e:
         print("Tried to copy contents of", css_and_assets_path, "/assets folder but the folder does not exist! Make one, even empty!")
+        print(str(e))
     
     try:
         copytree(css_and_assets_path + "/lib", "site/lib")
-    except:
+    except Exception as e:
         print("Tried to copy contents of", css_and_assets_path, "/lib folder but the folder does not exist! Make one, even empty!")
+        print(str(e))
