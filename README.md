@@ -12,6 +12,9 @@
                      │ ├─┤├┤   ├─┘└┬┘ │ ├─┤│ ││││  │││├─┤└┬┘
                      ┴ ┴ ┴└─┘  ┴   ┴  ┴ ┴ ┴└─┘┘└┘  └┴┘┴ ┴ ┴
 
+# :warning: :warning: ARCHIVED :warning: :warning:
+I do not maintain this tool anymore. However, it still works perfectly fine, as far as I know.
+
 # pystatic
 Dead simple static site generator. To build a website you need only one line of Python, the rest is Markdown, HTML, and CSS.
 
